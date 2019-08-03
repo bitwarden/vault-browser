@@ -8,8 +8,37 @@ import { LockService } from 'jslib/abstractions/lock.service';
 import { PasswordGenerationService } from 'jslib/abstractions/passwordGeneration.service';
 import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
 
+const openPopup = (isFirefox: boolean): () => void => {
+    let resolver
+    const openDeferred = new Promise((resolve) => {
+        if (isFirefox) {
+            chrome.browserAction.openPopup()
+            const intervalId = setInterval(() => {
+                if (chrome.extension.getViews({ type: 'popup' }).length) {
+                    resolve()
+                    clearInterval(intervalId)
+                }
+            }, 10)
+        } else {
+            chrome.browserAction.openPopup(resolve)
+        }
+    })
+    const closeDeferred = new Promise((resolve) => {
+        resolver = resolve
+    })
+
+    Promise.all([openDeferred, closeDeferred]).then(() => {
+        chrome.extension.getViews({ type: 'popup' }).forEach((view: Window) => {
+            view.close()
+        })
+    })
+
+    return resolver
+}
+
 export default class CommandsBackground {
     private commands: any;
+    private isFirefox: boolean;
     private isSafari: boolean;
     private isEdge: boolean;
     private isVivaldi: boolean;
@@ -17,6 +46,7 @@ export default class CommandsBackground {
     constructor(private main: MainBackground, private passwordGenerationService: PasswordGenerationService,
         private platformUtilsService: PlatformUtilsService, private analytics: Analytics,
         private lockService: LockService) {
+        this.isFirefox = this.platformUtilsService.isFirefox();
         this.isSafari = this.platformUtilsService.isSafari();
         this.isEdge = this.platformUtilsService.isEdge();
         this.isVivaldi = this.platformUtilsService.isVivaldi();
@@ -44,10 +74,10 @@ export default class CommandsBackground {
     private async processCommand(command: string, sender?: any) {
         switch (command) {
             case 'generate_password':
-                await this.generatePasswordToClipboard();
+                await this.generatePasswordToClipboard(openPopup(this.isFirefox));
                 break;
             case 'autofill_login':
-                await this.autoFillLogin(sender ? sender.tab : null);
+                await this.autoFillLogin(sender ? sender.tab : null, openPopup(this.isFirefox));
                 break;
             case 'open_popup':
                 await this.openPopup();
@@ -57,7 +87,7 @@ export default class CommandsBackground {
         }
     }
 
-    private async generatePasswordToClipboard() {
+    private async generatePasswordToClipboard(closePopup: () => void) {
         if (this.isSafari || this.isEdge) {
             // Safari does not support access to clipboard from background
             return;
@@ -66,6 +96,8 @@ export default class CommandsBackground {
         if (await this.lockService.isLocked()) {
             return;
         }
+
+        closePopup()
 
         const options = await this.passwordGenerationService.getOptions();
         const password = await this.passwordGenerationService.generatePassword(options);
@@ -78,7 +110,7 @@ export default class CommandsBackground {
         });
     }
 
-    private async autoFillLogin(tab?: any) {
+    private async autoFillLogin(tab: any, closePopup: () => void) {
         if (await this.lockService.isLocked()) {
             return;
         }
@@ -91,6 +123,7 @@ export default class CommandsBackground {
             return;
         }
 
+        closePopup()
         await this.main.collectPageDetailsForContentScript(tab, 'autofill_cmd');
 
         this.analytics.ga('send', {
