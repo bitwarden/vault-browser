@@ -32,6 +32,14 @@
                 </select>
             </div>
             <div class="box-content-row box-content-row-checkbox" appBoxRow>
+                <label for="favicon">{{'lockAfterIdle' | i18n}}</label>
+                <input id="favicon" type="checkbox" (change)="updateLockAfterIdle()" [(ngModel)]="lockAfterIdle">
+            </div>
+            <div class="box-content-row box-content-row-checkbox" appBoxRow>
+                <label for="favicon">{{'lockOnSystemLock' | i18n}}</label>
+                <input id="favicon" type="checkbox" (change)="updateLockOnSystemLock()" [(ngModel)]="lockOnSystemLock">
+            </div>
+            <div class="box-content-row box-content-row-checkbox" appBoxRow>
                 <label for="pin">{{'unlockWithPin' | i18n}}</label>
                 <input id="pin" type="checkbox" (change)="updatePin()" [(ngModel)]="pin">
             </div>

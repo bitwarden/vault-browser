@@ -1247,5 +1247,11 @@
   },
   "passwordGeneratorPolicyInEffect": {
     "message": "One or more organization policies are affecting your generator settings."
+  },
+  "lockAfterIdle": {
+    "message": "Lock After Idle"
+  },
+  "lockOnSystemLock": {
+    "message": "Lock On System Lock"
   }
 }
