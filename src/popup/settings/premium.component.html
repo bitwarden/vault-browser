@@ -2,60 +2,60 @@
     <div class="left">
         <a routerLink="/tabs/settings">
             <span class="header-icon"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
-            <span>{{'back' | i18n}}</span>
+            <span>{{'back' | i18n | async}}</span>
         </a>
     </div>
     <div class="center">
-        <span class="title">{{'premiumMembership' | i18n}}</span>
+        <span class="title">{{'premiumMembership' | i18n | async}}</span>
     </div>
     <div class="right"></div>
 </header>
 <content>
     <div class="content">
         <ng-container *ngIf="!isPremium">
-            <p class="text-center lead">{{'premiumNotCurrentMember' | i18n}}</p>
-            <p>{{'premiumSignUpAndGet' | i18n}}</p>
+            <p class="text-center lead">{{'premiumNotCurrentMember' | i18n | async}}</p>
+            <p>{{'premiumSignUpAndGet' | i18n | async}}</p>
             <ul class="fa-ul">
                 <li>
                     <i class="fa-li fa fa-check text-success" aria-hidden="true"></i>
-                    {{'ppremiumSignUpStorage' | i18n}}
+                    {{'ppremiumSignUpStorage' | i18n | async}}
                 </li>
                 <li>
                     <i class="fa-li fa fa-check text-success" aria-hidden="true"></i>
-                    {{'ppremiumSignUpTwoStep' | i18n}}
+                    {{'ppremiumSignUpTwoStep' | i18n | async}}
                 </li>
                 <li>
                     <i class="fa-li fa fa-check text-success" aria-hidden="true"></i>
-                    {{'ppremiumSignUpReports' | i18n}}
+                    {{'ppremiumSignUpReports' | i18n | async}}
                 </li>
                 <li>
                     <i class="fa-li fa fa-check text-success" aria-hidden="true"></i>
-                    {{'ppremiumSignUpTotp' | i18n}}
+                    {{'ppremiumSignUpTotp' | i18n | async}}
                 </li>
                 <li>
                     <i class="fa-li fa fa-check text-success" aria-hidden="true"></i>
-                    {{'ppremiumSignUpSupport' | i18n}}
+                    {{'ppremiumSignUpSupport' | i18n | async}}
                 </li>
                 <li>
                     <i class="fa-li fa fa-check text-success" aria-hidden="true"></i>
-                    {{'ppremiumSignUpFuture' | i18n}}
+                    {{'ppremiumSignUpFuture' | i18n | async}}
                 </li>
             </ul>
             <p class="text-center lead">{{priceString}}</p>
             <button type="button" class="btn primary block" appBlurClick (click)="purchase()">
-                <b>{{'premiumPurchase' | i18n}}</b>
+                <b>{{'premiumPurchase' | i18n | async}}</b>
             </button>
             <button #refreshBtn type="button" appBlurClick (click)="refresh()" [disabled]="refreshBtn.loading"
                 [appApiAction]="refreshPromise" class="btn link block">
-                <span [hidden]="refreshBtn.loading">{{'premiumRefresh' | i18n}}</span>
+                <span [hidden]="refreshBtn.loading">{{'premiumRefresh' | i18n | async}}</span>
                 <i class="fa fa-spinner fa-spin fa-lg fa-fw" [hidden]="!refreshBtn.loading" aria-hidden="true"></i>
             </button>
         </ng-container>
         <ng-container *ngIf="isPremium">
-            <p class="text-center lead">{{'premiumCurrentMember' | i18n}}</p>
-            <p class="text-center">{{'premiumCurrentMemberThanks' | i18n}}</p>
+            <p class="text-center lead">{{'premiumCurrentMember' | i18n | async}}</p>
+            <p class="text-center">{{'premiumCurrentMemberThanks' | i18n | async}}</p>
             <button type="button" class="btn block primary" appBlurClick (click)="manage()">
-                <b>{{'premiumManage' | i18n}}</b>
+                <b>{{'premiumManage' | i18n | async}}</b>
             </button>
         </ng-container>
     </div>

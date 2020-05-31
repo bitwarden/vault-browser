@@ -90,10 +90,15 @@ export function initFactory(i18nService: I18nService, storageService: StorageSer
             if (theme == null) {
                 theme = 'light';
             }
-            window.document.documentElement.classList.add('locale_' + i18nService.translationLocale);
+
+            const i18nServiceAsAny = i18nService as any;
+            const translationLocale = i18nServiceAsAny.isPrivateBrowsingProxy ?
+                await i18nServiceAsAny.translationLocale.getRawValue :
+                i18nServiceAsAny.translationLocale;
+            window.document.documentElement.classList.add('locale_' + translationLocale);
             window.document.documentElement.classList.add('theme_' + theme);
 
-            authService.init();
+            await authService.init();
 
             const analytics = new Analytics(window, () => BrowserApi.gaFilter(), null, null, null, () => {
                 const bgPage = BrowserApi.getBackgroundPage();

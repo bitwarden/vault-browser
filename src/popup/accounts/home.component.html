@@ -1,11 +1,11 @@
 <div class="center-content">
     <div class="content">
         <div class="logo-image"></div>
-        <p class="lead text-center">{{'loginOrCreateNewAccount' | i18n}}</p>
-        <a class="btn primary block" routerLink="/login"><b>{{'login' | i18n}}</b></a>
-        <a class="btn block" routerLink="/register">{{'createAccount' | i18n}}</a>
+        <p class="lead text-center">{{'loginOrCreateNewAccount' | i18n | async}}</p>
+        <a class="btn primary block" routerLink="/login"><b>{{'login' | i18n | async}}</b></a>
+        <a class="btn block" routerLink="/register">{{'createAccount' | i18n | async}}</a>
     </div>
 </div>
 <a routerLink="/environment" class="settings-icon">
-    <i class="fa fa-cog fa-lg" aria-hidden="true"></i><span>&nbsp;{{'settings' | i18n}}</span>
+    <i class="fa fa-cog fa-lg" aria-hidden="true"></i><span>&nbsp;{{'settings' | i18n | async}}</span>
 </a>

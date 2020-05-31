@@ -1,14 +1,14 @@
 <form #form (ngSubmit)="submit()" [appApiAction]="formPromise">
     <header>
         <div class="left">
-            <a routerLink="/home">{{'cancel' | i18n}}</a>
+            <a routerLink="/home">{{'cancel' | i18n | async}}</a>
         </div>
         <div class="center">
-            <span class="title">{{'appName' | i18n}}</span>
+            <span class="title">{{'appName' | i18n | async}}</span>
         </div>
         <div class="right">
             <button type="submit" appBlurClick [disabled]="form.loading">
-                <span [hidden]="form.loading">{{'login' | i18n}}</span>
+                <span [hidden]="form.loading">{{'login' | i18n | async}}</span>
                 <i class="fa fa-spinner fa-lg fa-spin" [hidden]="!form.loading" aria-hidden="true"></i>
             </button>
         </div>
@@ -17,19 +17,19 @@
         <div class="box">
             <div class="box-content">
                 <div class="box-content-row" appBoxRow>
-                    <label for="email">{{'emailAddress' | i18n}}</label>
+                    <label for="email">{{'emailAddress' | i18n | async}}</label>
                     <input id="email" type="text" name="Email" [(ngModel)]="email" required inputmode="email"
                         appInputVerbatim="false">
                 </div>
                 <div class="box-content-row box-content-row-flex" appBoxRow>
                     <div class="row-main">
-                        <label for="masterPassword">{{'masterPass' | i18n}}</label>
+                        <label for="masterPassword">{{'masterPass' | i18n | async}}</label>
                         <input id="masterPassword" type="{{showPassword ? 'text' : 'password'}}" name="MasterPassword"
                             class="monospaced" [(ngModel)]="masterPassword" required appInputVerbatim>
                     </div>
                     <div class="action-buttons">
                         <a class="row-btn" href="#" appStopClick appBlurClick
-                            appA11yTitle="{{'toggleVisibility' | i18n}}" (click)="togglePassword()">
+                            appA11yTitle="{{'toggleVisibility' | i18n | async}}" (click)="togglePassword()">
                             <i class="fa fa-lg" [ngClass]="{'fa-eye': !showPassword, 'fa-eye-slash': showPassword}"
                                 aria-hidden="true"></i>
                         </a>
@@ -38,7 +38,7 @@
             </div>
         </div>
         <p class="text-center">
-            <a routerLink="/hint">{{'getMasterPasswordHint' | i18n}}</a>
+            <a routerLink="/hint">{{'getMasterPasswordHint' | i18n | async}}</a>
         </p>
     </content>
 </form>

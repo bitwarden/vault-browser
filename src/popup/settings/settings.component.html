@@ -3,132 +3,132 @@
         <app-pop-out></app-pop-out>
     </div>
     <div class="center">
-        <span class="title">{{'settings' | i18n}}</span>
+        <span class="title">{{'settings' | i18n | async}}</span>
     </div>
     <div class="right"></div>
 </header>
 <content>
     <div class="box list">
-        <div class="box-header">{{'manage' | i18n}}</div>
+        <div class="box-header">{{'manage' | i18n | async}}</div>
         <div class="box-content single-line">
             <a class="box-content-row box-content-row-flex text-default" routerLink="/folders">
-                <div class="row-main">{{'folders' | i18n}}</div>
+                <div class="row-main">{{'folders' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
             <a class="box-content-row box-content-row-flex text-default" routerLink="/sync">
-                <div class="row-main">{{'sync' | i18n}}</div>
+                <div class="row-main">{{'sync' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
         </div>
     </div>
     <div class="box list">
-        <div class="box-header">{{'security' | i18n}}</div>
+        <div class="box-header">{{'security' | i18n | async}}</div>
         <div class="box-content single-line">
             <div class="box-content-row display-block" appBoxRow>
-                <label for="vaultTimeout">{{'vaultTimeout' | i18n}}</label>
+                <label for="vaultTimeout">{{'vaultTimeout' | i18n | async}}</label>
                 <select #vaultTimeoutSelect id="vaultTimeout" name="VaultTimeouts" [ngModel]="vaultTimeout"
                     (ngModelChange)="saveVaultTimeout($event)">
                     <option *ngFor="let o of vaultTimeouts" [ngValue]="o.value">{{o.name}}</option>
                 </select>
             </div>
             <div class="box-content-row display-block" appBoxRow>
-                <label for="vaultTimeoutAction">{{'vaultTimeoutAction' | i18n}}</label>
+                <label for="vaultTimeoutAction">{{'vaultTimeoutAction' | i18n | async}}</label>
                 <select #vaultTimeoutActionSelect id="vaultTimeoutAction" name="VaultTimeoutActions"
                     [ngModel]="vaultTimeoutAction" (ngModelChange)="saveVaultTimeoutAction($event)">
                     <option *ngFor="let o of vaultTimeoutActions" [ngValue]="o.value">{{o.name}}</option>
                 </select>
             </div>
             <div class="box-content-row box-content-row-checkbox" appBoxRow>
-                <label for="pin">{{'unlockWithPin' | i18n}}</label>
+                <label for="pin">{{'unlockWithPin' | i18n | async}}</label>
                 <input id="pin" type="checkbox" (change)="updatePin()" [(ngModel)]="pin">
             </div>
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="lock()">
-                <div class="row-main">{{'lockNow' | i18n}}</div>
+                <div class="row-main">{{'lockNow' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="twoStep()">
-                <div class="row-main">{{'twoStepLogin' | i18n}}</div>
+                <div class="row-main">{{'twoStepLogin' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
         </div>
     </div>
     <div class="box list">
-        <div class="box-header">{{'account' | i18n}}</div>
+        <div class="box-header">{{'account' | i18n | async}}</div>
         <div class="box-content single-line">
             <a class="box-content-row" routerLink="/premium">
                 <div class="row-main">
                     <div class="icon text-primary"><i class="fa fa-fw fa-lg fa-star" aria-hidden="true"></i></div>
-                    <span class="text text-primary"><b>{{'premiumMembership' | i18n}}</b></span>
+                    <span class="text text-primary"><b>{{'premiumMembership' | i18n | async}}</b></span>
                 </div>
                 <span><i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i></span>
             </a>
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="changePassword()">
-                <div class="row-main">{{'changeMasterPassword' | i18n}}</div>
+                <div class="row-main">{{'changeMasterPassword' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="fingerprint()">
-                <div class="row-main">{{'fingerprintPhrase' | i18n}}</div>
+                <div class="row-main">{{'fingerprintPhrase' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="logOut()">
-                <div class="row-main">{{'logOut' | i18n}}</div>
+                <div class="row-main">{{'logOut' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
         </div>
     </div>
     <div class="box list">
-        <div class="box-header">{{'tools' | i18n}}</div>
+        <div class="box-header">{{'tools' | i18n | async}}</div>
         <div class="box-content single-line">
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="import()">
-                <div class="row-main">{{'importItems' | i18n}}</div>
+                <div class="row-main">{{'importItems' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="export()">
-                <div class="row-main">{{'exportVault' | i18n}}</div>
+                <div class="row-main">{{'exportVault' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="share()">
-                <div class="row-main">{{'shareVault' | i18n}}</div>
+                <div class="row-main">{{'shareVault' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="webVault()">
-                <div class="row-main">{{'bitWebVault' | i18n}}</div>
+                <div class="row-main">{{'bitWebVault' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
         </div>
     </div>
     <div class="box list">
-        <div class="box-header">{{'other' | i18n}}</div>
+        <div class="box-header">{{'other' | i18n | async}}</div>
         <div class="box-content single-line">
             <a class="box-content-row box-content-row-flex text-default" routerLink="/options">
-                <div class="row-main">{{'options' | i18n}}</div>
+                <div class="row-main">{{'options' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="about()">
-                <div class="row-main">{{'about' | i18n}}</div>
+                <div class="row-main">{{'about' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="help()">
-                <div class="row-main">{{'helpFeedback' | i18n}}</div>
+                <div class="row-main">{{'helpFeedback' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
             <a class="box-content-row box-content-row-flex text-default" href="#" appStopClick appBlurClick
                 (click)="rate()">
-                <div class="row-main">{{'rateExtension' | i18n}}</div>
+                <div class="row-main">{{'rateExtension' | i18n | async}}</div>
                 <i class="fa fa-chevron-right fa-lg row-sub-icon" aria-hidden="true"></i>
             </a>
         </div>
-        <div class="box-footer">{{'rateExtensionDesc' | i18n}}</div>
+        <div class="box-footer">{{'rateExtensionDesc' | i18n | async}}</div>
     </div>
 </content>

@@ -1,7 +1,7 @@
 <form id="two-factor-page" #form (ngSubmit)="submit()" [appApiAction]="formPromise">
     <header>
         <div class="left">
-            <a routerLink="/login">{{'back' | i18n}}</a>
+            <a routerLink="/login">{{'back' | i18n | async}}</a>
         </div>
         <div class="center">
             <span class="title">{{title}}</span>
@@ -10,7 +10,7 @@
             <button type="submit" appBlurClick [disabled]="form.loading" *ngIf="selectedProviderType != null && selectedProviderType !== providerType.Duo &&
                         selectedProviderType !== providerType.OrganizationDuo &&
                         (selectedProviderType !== providerType.U2f || form.loading)">
-                <span [hidden]="form.loading">{{'continue' | i18n}}</span>
+                <span [hidden]="form.loading">{{'continue' | i18n | async}}</span>
                 <i class="fa fa-spinner fa-lg fa-spin" [hidden]="!form.loading" aria-hidden="true"></i>
             </button>
         </div>
@@ -20,7 +20,7 @@
                   selectedProviderType === providerType.Email">
             <div class="content text-center">
                 <span *ngIf="selectedProviderType === providerType.Authenticator">
-                    {{'enterVerificationCodeApp' | i18n}}
+                    {{'enterVerificationCodeApp' | i18n | async}}
                 </span>
                 <span *ngIf="selectedProviderType === providerType.Email">
                     {{'enterVerificationCodeEmail' | i18n : twoFactorEmail}}
@@ -29,12 +29,12 @@
             <div class="box first">
                 <div class="box-content">
                     <div class="box-content-row" appBoxRow>
-                        <label for="code">{{'verificationCode' | i18n}}</label>
+                        <label for="code">{{'verificationCode' | i18n | async}}</label>
                         <input id="code" type="text" name="Code" [(ngModel)]="token" required appAutofocus
                             inputmode="tel" appInputVerbatim>
                     </div>
                     <div class="box-content-row box-content-row-checkbox" appBoxRow>
-                        <label for="remember">{{'rememberMe' | i18n}}</label>
+                        <label for="remember">{{'rememberMe' | i18n | async}}</label>
                         <input id="remember" type="checkbox" name="Remember" [(ngModel)]="remember">
                     </div>
                 </div>
@@ -42,18 +42,18 @@
         </ng-container>
         <ng-container *ngIf="selectedProviderType === providerType.Yubikey">
             <div class="content text-center">
-                <p class="text-center">{{'insertYubiKey' | i18n}}</p>
+                <p class="text-center">{{'insertYubiKey' | i18n | async}}</p>
                 <img src="../images/yubikey.jpg" class="img-rounded img-responsive" alt="">
             </div>
             <div class="box first">
                 <div class="box-content">
                     <div class="box-content-row" appBoxRow>
-                        <label for="code" class="sr-only">{{'verificationCode' | i18n}}</label>
+                        <label for="code" class="sr-only">{{'verificationCode' | i18n | async}}</label>
                         <input id="code" type="password" name="Code" [(ngModel)]="token" required appAutofocus
                             appInputVerbatim>
                     </div>
                     <div class="box-content-row box-content-row-checkbox" appBoxRow>
-                        <label for="remember">{{'rememberMe' | i18n}}</label>
+                        <label for="remember">{{'rememberMe' | i18n | async}}</label>
                         <input id="remember" type="checkbox" name="Remember" [(ngModel)]="remember">
                     </div>
                 </div>
@@ -63,14 +63,14 @@
             <div class="content text-center">
                 <span *ngIf="!u2fReady" class="text-center"><i class="fa fa-spinner fa-spin"></i></span>
                 <div *ngIf="u2fReady">
-                    <p>{{'insertU2f' | i18n}}</p>
+                    <p>{{'insertU2f' | i18n | async}}</p>
                     <img src="../images/u2fkey.jpg" alt="" class="img-rounded img-responsive" />
                 </div>
             </div>
             <div class="box first">
                 <div class="box-content">
                     <div class="box-content-row box-content-row-checkbox" appBoxRow>
-                        <label for="remember">{{'rememberMe' | i18n}}</label>
+                        <label for="remember">{{'rememberMe' | i18n | async}}</label>
                         <input id="remember" type="checkbox" name="Remember" [(ngModel)]="remember">
                     </div>
                 </div>
@@ -82,23 +82,23 @@
             <div class="box">
                 <div class="box-content">
                     <div class="box-content-row box-content-row-checkbox" appBoxRow>
-                        <label for="remember">{{'rememberMe' | i18n}}</label>
+                        <label for="remember">{{'rememberMe' | i18n | async}}</label>
                         <input id="remember" type="checkbox" name="Remember" [(ngModel)]="remember">
                     </div>
                 </div>
             </div>
         </ng-container>
         <div class="content" *ngIf="selectedProviderType == null">
-            <p class="text-center">{{'noTwoStepProviders' | i18n}}</p>
-            <p class="text-center">{{'noTwoStepProviders2' | i18n}}</p>
+            <p class="text-center">{{'noTwoStepProviders' | i18n | async}}</p>
+            <p class="text-center">{{'noTwoStepProviders2' | i18n | async}}</p>
         </div>
         <div class="content no-vpad" *ngIf="selectedProviderType != null">
             <p class="text-center">
-                <a href="#" appStopClick (click)="anotherMethod()">{{'useAnotherTwoStepMethod' | i18n}}</a>
+                <a href="#" appStopClick (click)="anotherMethod()">{{'useAnotherTwoStepMethod' | i18n | async}}</a>
             </p>
             <p *ngIf="selectedProviderType === providerType.Email" class="text-center">
                 <a href="#" appStopClick (click)="sendEmail(true)" [appApiAction]="emailPromise">
-                    {{'sendVerificationCodeEmailAgain' | i18n}}
+                    {{'sendVerificationCodeEmailAgain' | i18n | async}}
                 </a>
             </p>
         </div>

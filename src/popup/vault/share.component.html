@@ -1,15 +1,15 @@
 <form #form (ngSubmit)="submit()" [appApiAction]="formPromise">
     <header>
         <div class="left">
-            <button type="button" appBlurClick (click)="cancel()">{{'cancel' | i18n}}</button>
+            <button type="button" appBlurClick (click)="cancel()">{{'cancel' | i18n | async}}</button>
         </div>
         <div class="center">
-            <span class="title">{{'share' | i18n}}</span>
+            <span class="title">{{'share' | i18n | async}}</span>
         </div>
         <div class="right">
             <button type="submit" appBlurClick [disabled]="form.loading || !canSave"
                 *ngIf="organizations && organizations.length">
-                <span [hidden]="form.loading">{{'save' | i18n}}</span>
+                <span [hidden]="form.loading">{{'save' | i18n | async}}</span>
                 <i class="fa fa-spinner fa-lg fa-spin" [hidden]="!form.loading" aria-hidden="true"></i>
             </button>
         </div>
@@ -18,12 +18,12 @@
         <div class="box">
             <div class="box-content" *ngIf="!organizations || !organizations.length">
                 <div class="box-content-row padded no-hover">
-                    {{'noOrganizationsList' | i18n}}
+                    {{'noOrganizationsList' | i18n | async}}
                 </div>
             </div>
             <div class="box-content" *ngIf="organizations && organizations.length">
                 <div class="box-content-row" appBoxRow>
-                    <label for="organization">{{'organization' | i18n}}</label>
+                    <label for="organization">{{'organization' | i18n | async}}</label>
                     <select id="organization" name="OrganizationId" [(ngModel)]="organizationId"
                         (change)="filterCollections()">
                         <option *ngFor="let o of organizations" [ngValue]="o.id">{{o.name}}</option>
@@ -31,16 +31,16 @@
                 </div>
             </div>
             <div class="box-footer">
-                {{'shareDesc' | i18n}}
+                {{'shareDesc' | i18n | async}}
             </div>
         </div>
         <div class="box" *ngIf="organizations && organizations.length">
             <div class="box-header">
-                {{'collections' | i18n}}
+                {{'collections' | i18n | async}}
             </div>
             <div class="box-content" *ngIf="!collections || !collections.length">
                 <div class="box-content-row padded no-hover">
-                    {{'noCollectionsInList' | i18n}}
+                    {{'noCollectionsInList' | i18n | async}}
                 </div>
             </div>
             <div class="box-content" *ngIf="collections && collections.length">

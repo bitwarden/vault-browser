@@ -1,9 +1,9 @@
 <header>
     <div class="left">
-        <a routerLink="/2fa">{{'close' | i18n}}</a>
+        <a routerLink="/2fa">{{'close' | i18n | async}}</a>
     </div>
     <div class="center">
-        <span class="title">{{'twoStepOptions' | i18n}}</span>
+        <span class="title">{{'twoStepOptions' | i18n | async}}</span>
     </div>
     <div class="right"></div>
 </header>
@@ -15,8 +15,8 @@
                 <span class="detail">{{p.description}}</span>
             </a>
             <a href="#" appStopClick class="box-content-row" (click)="recover()">
-                <span class="text">{{'recoveryCodeTitle' | i18n}}</span>
-                <span class="detail">{{'recoveryCodeDesc' | i18n}}</span>
+                <span class="text">{{'recoveryCodeTitle' | i18n | async}}</span>
+                <span class="detail">{{'recoveryCodeDesc' | i18n | async}}</span>
             </a>
         </div>
     </div>

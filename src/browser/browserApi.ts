@@ -1,3 +1,4 @@
+import { firefoxClient } from '../firefox/privateBrowsingProxyClient';
 import { SafariApp } from './safariApp';
 
 import { Utils } from 'jslib/misc/utils';
@@ -6,7 +7,8 @@ export class BrowserApi {
     static isWebExtensionsApi: boolean = (typeof browser !== 'undefined');
     static isSafariApi: boolean = (window as any).safariAppExtension === true;
     static isChromeApi: boolean = !BrowserApi.isSafariApi && (typeof chrome !== 'undefined');
-    static isFirefoxOnAndroid: boolean = navigator.userAgent.indexOf('Firefox/') !== -1 &&
+    static isFirefox: boolean = navigator.userAgent.indexOf('Firefox/') !== -1;
+    static isFirefoxOnAndroid: boolean = BrowserApi.isFirefox &&
         navigator.userAgent.indexOf('Android') !== -1;
     static isEdge18: boolean = navigator.userAgent.indexOf(' Edge/18.') !== -1;
 
@@ -95,7 +97,9 @@ export class BrowserApi {
     }
 
     static getBackgroundPage(): any {
-        if (BrowserApi.isChromeApi) {
+        if (chrome.extension.getBackgroundPage() === null && BrowserApi.isFirefox) {
+            return firefoxClient(browser.runtime.sendMessage);
+        } else if (BrowserApi.isChromeApi) {
             return chrome.extension.getBackgroundPage();
         } else if (BrowserApi.isSafariApi) {
             return window;

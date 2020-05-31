@@ -1,5 +1,5 @@
 <ng-container *ngIf="show">
-    <button (click)="expand()" appA11yTitle="{{'popOutNewWindow' | i18n}}">
+    <button (click)="expand()" appA11yTitle="{{'popOutNewWindow' | i18n | async}}">
         <i class="fa fa-external-link fa-rotate-270 fa-lg fa-fw" aria-hidden="true"></i>
     </button>
 </ng-container>

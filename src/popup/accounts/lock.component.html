@@ -2,10 +2,10 @@
     <header>
         <div class="left"></div>
         <div class="center">
-            <span class="title">{{(pinLock ? 'verifyPin' : 'verifyMasterPassword') | i18n}}</span>
+            <span class="title">{{(pinLock ? 'verifyPin' : 'verifyMasterPassword') | i18n | async}}</span>
         </div>
         <div class="right">
-            <button type="submit" appBlurClick>{{'unlock' | i18n}}</button>
+            <button type="submit" appBlurClick>{{'unlock' | i18n | async}}</button>
         </div>
     </header>
     <content>
@@ -13,18 +13,18 @@
             <div class="box-content">
                 <div class="box-content-row box-content-row-flex" appBoxRow>
                     <div class="row-main" *ngIf="pinLock">
-                        <label for="pin">{{'pin' | i18n}}</label>
+                        <label for="pin">{{'pin' | i18n | async}}</label>
                         <input id="pin" type="{{showPassword ? 'text' : 'password'}}" name="PIN" class="monospaced"
                             [(ngModel)]="pin" required appInputVerbatim>
                     </div>
                     <div class="row-main" *ngIf="!pinLock">
-                        <label for="masterPassword">{{'masterPass' | i18n}}</label>
+                        <label for="masterPassword">{{'masterPass' | i18n | async}}</label>
                         <input id="masterPassword" type="{{showPassword ? 'text' : 'password'}}" name="MasterPassword"
                             class="monospaced" [(ngModel)]="masterPassword" required appInputVerbatim>
                     </div>
                     <div class="action-buttons">
                         <a class="row-btn" href="#" appStopClick appBlurClick
-                            appA11yTitle="{{'toggleVisibility' | i18n}}" (click)="togglePassword()">
+                            appA11yTitle="{{'toggleVisibility' | i18n | async}}" (click)="togglePassword()">
                             <i class="fa fa-lg" [ngClass]="{'fa-eye': !showPassword, 'fa-eye-slash': showPassword}"
                                 aria-hidden="true"></i>
                         </a>
@@ -32,12 +32,12 @@
                 </div>
             </div>
             <div class="box-footer">
-                <p>{{(pinLock ? 'yourVaultIsLockedPinCode' : 'yourVaultIsLocked') | i18n}}</p>
+                <p>{{(pinLock ? 'yourVaultIsLockedPinCode' : 'yourVaultIsLocked') | i18n | async}}</p>
                 {{'loggedInAsOn' | i18n : email : webVaultHostname}}
             </div>
         </div>
         <p class="text-center">
-            <a href="#" appStopClick (click)="logOut()">{{'logOut' | i18n}}</a>
+            <a href="#" appStopClick (click)="logOut()">{{'logOut' | i18n | async}}</a>
         </p>
     </content>
 </form>

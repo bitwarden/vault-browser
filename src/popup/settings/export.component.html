@@ -3,21 +3,21 @@
         <div class="left">
             <a routerLink="/tabs/settings">
                 <span class="header-icon" aria-hidden="true"><i class="fa fa-chevron-left"></i></span>
-                <span>{{'back' | i18n}}</span>
+                <span>{{'back' | i18n | async}}</span>
             </a>
         </div>
         <div class="center">
-            <span class="title">{{'exportVault' | i18n}}</span>
+            <span class="title">{{'exportVault' | i18n | async}}</span>
         </div>
         <div class="right">
-            <button appBlurClick type="submit">{{'submit' | i18n}}</button>
+            <button appBlurClick type="submit">{{'submit' | i18n | async}}</button>
         </div>
     </header>
     <content>
         <div class="box">
             <div class="box-content">
                 <div class="box-content-row" appBoxRow>
-                    <label for="format">{{'fileFormat' | i18n}}</label>
+                    <label for="format">{{'fileFormat' | i18n | async}}</label>
                     <select id="format" name="Format" [(ngModel)]="format">
                         <option value="json">.json</option>
                         <option value="csv">.csv</option>
@@ -25,13 +25,13 @@
                 </div>
                 <div class="box-content-row box-content-row-flex" appBoxRow>
                     <div class="row-main">
-                        <label for="masterPassword">{{'masterPass' | i18n}}</label>
+                        <label for="masterPassword">{{'masterPass' | i18n | async}}</label>
                         <input id="masterPassword" type="{{showPassword ? 'text' : 'password'}}" name="MasterPassword"
                             class="monospaced" [(ngModel)]="masterPassword" required appInputVerbatim appAutofocus>
                     </div>
                     <div class="action-buttons">
                         <a class="row-btn" href="#" appStopClick appBlurClick
-                            appA11yTitle="{{'toggleVisibility' | i18n}}" (click)="togglePassword()">
+                            appA11yTitle="{{'toggleVisibility' | i18n | async}}" (click)="togglePassword()">
                             <i class="fa fa-lg" aria-hidden="true"
                                 [ngClass]="{'fa-eye': !showPassword, 'fa-eye-slash': showPassword}"></i>
                         </a>
@@ -39,8 +39,8 @@
                 </div>
             </div>
             <div class="box-footer">
-                <p>{{'exportMasterPassword' | i18n}}</p>
-                <strong>{{'warning' | i18n}}</strong>: {{'exportWarningDesc' | i18n}}
+                <p>{{'exportMasterPassword' | i18n | async}}</p>
+                <strong>{{'warning' | i18n | async}}</strong>: {{'exportWarningDesc' | i18n | async}}
             </div>
         </div>
     </content>

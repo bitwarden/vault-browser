@@ -3,12 +3,12 @@
         <app-pop-out></app-pop-out>
     </div>
     <div class="search">
-        <input type="{{searchTypeSearch ? 'search' : 'text'}}" placeholder="{{'searchVault' | i18n}}" id="search"
+        <input type="{{searchTypeSearch ? 'search' : 'text'}}" placeholder="{{'searchVault' | i18n | async}}" id="search"
             [(ngModel)]="searchText" (input)="search(200)" autocomplete="off" appAutofocus>
         <i class="fa fa-search"></i>
     </div>
     <div class="right">
-        <button appBlurClick (click)="addCipher()" appA11yTitle="{{'addItem' | i18n}}">
+        <button appBlurClick (click)="addCipher()" appA11yTitle="{{'addItem' | i18n | async}}">
             <i class="fa fa-plus fa-lg fa-fw" aria-hidden="true"></i>
         </button>
     </div>
@@ -18,31 +18,31 @@
         <i class="fa fa-spinner fa-spin fa-3x" *ngIf="!loaded"></i>
         <ng-container *ngIf="loaded">
             <i class="fa fa-frown-o fa-4x"></i>
-            <p>{{'noItemsInList' | i18n}}</p>
-            <button (click)="addCipher()" class="btn block primary link">{{'addItem' | i18n}}</button>
+            <p>{{'noItemsInList' | i18n | async}}</p>
+            <button (click)="addCipher()" class="btn block primary link">{{'addItem' | i18n | async}}</button>
         </ng-container>
     </div>
     <ng-container *ngIf="ciphers && ciphers.length && !showSearching()">
         <div class="box list" *ngIf="favoriteCiphers">
             <div class="box-header">
-                {{'favorites' | i18n}}
+                {{'favorites' | i18n | async}}
                 <span class="flex-right">{{favoriteCiphers.length}}</span>
             </div>
             <div class="box-content">
-                <app-ciphers-list [ciphers]="favoriteCiphers" title="{{'viewItem' | i18n}}"
+                <app-ciphers-list [ciphers]="favoriteCiphers" title="{{'viewItem' | i18n | async}}"
                     (onSelected)="selectCipher($event)" (onDoubleSelected)="launchCipher($event)"></app-ciphers-list>
             </div>
         </div>
         <div class="box list">
             <div class="box-header">
-                {{'types' | i18n}}
+                {{'types' | i18n | async}}
                 <span class="flex-right">4</span>
             </div>
             <div class="box-content single-line">
                 <a href="#" class="box-content-row" appStopClick appBlurClick (click)="selectType(cipherType.Login)">
                     <div class="row-main">
                         <div class="icon"><i class="fa fa-fw fa-lg fa-globe"></i></div>
-                        <span class="text">{{'typeLogin' | i18n}}</span>
+                        <span class="text">{{'typeLogin' | i18n | async}}</span>
                     </div>
                     <span class="row-sub-label">{{typeCounts.get(cipherType.Login) || 0}}</span>
                     <span><i class="fa fa-chevron-right fa-lg row-sub-icon"></i></span>
@@ -50,7 +50,7 @@
                 <a href="#" class="box-content-row" appStopClick appBlurClick (click)="selectType(cipherType.Card)">
                     <div class="row-main">
                         <div class="icon"><i class="fa fa-fw fa-lg fa-credit-card"></i></div>
-                        <span class="text">{{'typeCard' | i18n}}</span>
+                        <span class="text">{{'typeCard' | i18n | async}}</span>
                     </div>
                     <span class="row-sub-label">{{typeCounts.get(cipherType.Card) || 0}}</span>
                     <span><i class="fa fa-chevron-right fa-lg row-sub-icon"></i></span>
@@ -58,7 +58,7 @@
                 <a href="#" class="box-content-row" appStopClick appBlurClick (click)="selectType(cipherType.Identity)">
                     <div class="row-main">
                         <div class="icon"><i class="fa fa-fw fa-lg fa-id-card-o"></i></div>
-                        <span class="text">{{'typeIdentity' | i18n}}</span>
+                        <span class="text">{{'typeIdentity' | i18n | async}}</span>
                     </div>
                     <span class="row-sub-label">{{typeCounts.get(cipherType.Identity) || 0}}</span>
                     <span><i class="fa fa-chevron-right fa-lg row-sub-icon"></i></span>
@@ -67,7 +67,7 @@
                     (click)="selectType(cipherType.SecureNote)">
                     <div class="row-main">
                         <div class="icon"><i class="fa fa-fw fa-lg fa-sticky-note-o"></i></div>
-                        <span class="text">{{'typeSecureNote' | i18n}}</span>
+                        <span class="text">{{'typeSecureNote' | i18n | async}}</span>
                     </div>
                     <span class="row-sub-label">{{typeCounts.get(cipherType.SecureNote) || 0}}</span>
                     <span><i class="fa fa-chevron-right fa-lg row-sub-icon"></i></span>
@@ -76,7 +76,7 @@
         </div>
         <div class="box list" *ngIf="nestedFolders && nestedFolders.length">
             <div class="box-header">
-                {{'folders' | i18n}}
+                {{'folders' | i18n | async}}
                 <span class="flex-right">{{folderCount}}</span>
             </div>
             <div class="box-content single-line">
@@ -96,7 +96,7 @@
         </div>
         <div class="box list" *ngIf="nestedCollections && nestedCollections.length">
             <div class="box-header">
-                {{'collections' | i18n}}
+                {{'collections' | i18n | async}}
                 <span class="flex-right">{{nestedCollections.length}}</span>
             </div>
             <div class="box-content single-line">
@@ -113,17 +113,17 @@
         </div>
         <div class="box list" *ngIf="showNoFolderCiphers">
             <div class="box-header">
-                {{'noneFolder' | i18n}}
+                {{'noneFolder' | i18n | async}}
                 <div class="flex-right">{{noFolderCiphers.length}}</div>
             </div>
             <div class="box-content">
-                <app-ciphers-list [ciphers]="noFolderCiphers" title="{{'viewItem' | i18n}}"
+                <app-ciphers-list [ciphers]="noFolderCiphers" title="{{'viewItem' | i18n | async}}"
                     (onSelected)="selectCipher($event)" (onDoubleSelected)="launchCipher($event)"></app-ciphers-list>
             </div>
         </div>
         <div class="box list" *ngIf="deletedCount">
             <div class="box-header">
-                {{'trash' | i18n}}
+                {{'trash' | i18n | async}}
                 <span class="flex-right">{{deletedCount}}</span>
             </div>
             <div class="box-content single-line">
@@ -131,7 +131,7 @@
                     (click)="selectTrash()">
                     <div class="row-main">
                         <div class="icon"><i class="fa fa-fw fa-lg fa-trash-o"></i></div>
-                        <span class="text">{{'trash' | i18n}}</span>
+                        <span class="text">{{'trash' | i18n | async}}</span>
                     </div>
                     <span class="row-sub-label">{{deletedCount}}</span>
                     <span><i class="fa fa-chevron-right fa-lg row-sub-icon"></i></span>
@@ -141,11 +141,11 @@
     </ng-container>
     <ng-container *ngIf="showSearching()">
         <div class="no-items" *ngIf="!ciphers || !ciphers.length">
-            <p>{{'noItemsInList' | i18n}}</p>
+            <p>{{'noItemsInList' | i18n | async}}</p>
         </div>
         <div class="box list full-list" *ngIf="ciphers && ciphers.length > 0">
             <div class="box-content">
-                <app-ciphers-list [ciphers]="ciphers" title="{{'viewItem' | i18n}}" (onSelected)="selectCipher($event)"
+                <app-ciphers-list [ciphers]="ciphers" title="{{'viewItem' | i18n | async}}" (onSelected)="selectCipher($event)"
                     (onDoubleSelected)="launchCipher($event)"></app-ciphers-list>
             </div>
         </div>

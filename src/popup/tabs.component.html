@@ -3,23 +3,23 @@
     <nav class="tabs" [ngClass]="{'tabs-3': !showCurrentTab}">
         <ul>
             <li routerLinkActive="active" *ngIf="showCurrentTab">
-                <a routerLink="current" appA11yTitle="{{'currentTab' | i18n}}">
-                    <i class="fa fa-folder fa-2x" aria-hidden="true"></i>{{'tab' | i18n}}
+                <a routerLink="current" appA11yTitle="{{'currentTab' | i18n | async}}">
+                    <i class="fa fa-folder fa-2x" aria-hidden="true"></i>{{'tab' | i18n | async}}
                 </a>
             </li>
             <li routerLinkActive="active">
-                <a routerLink="vault" appA11yTitle="{{'myVault' | i18n}}">
-                    <i class="fa fa-lock fa-2x" aria-hidden="true"></i>{{'myVault' | i18n}}
+                <a routerLink="vault" appA11yTitle="{{'myVault' | i18n | async}}">
+                    <i class="fa fa-lock fa-2x" aria-hidden="true"></i>{{'myVault' | i18n | async}}
                 </a>
             </li>
             <li routerLinkActive="active">
-                <a routerLink="generator" appA11yTitle="{{'passGen' | i18n}}">
-                    <i class="fa fa-refresh fa-2x" aria-hidden="true"></i>{{'generator' | i18n}}
+                <a routerLink="generator" appA11yTitle="{{'passGen' | i18n | async}}">
+                    <i class="fa fa-refresh fa-2x" aria-hidden="true"></i>{{'generator' | i18n | async}}
                 </a>
             </li>
             <li routerLinkActive="active">
-                <a routerLink="settings" appA11yTitle="{{'settings' | i18n}}">
-                    <i class="fa fa-cogs fa-2x" aria-hidden="true"></i>{{'settings' | i18n}}
+                <a routerLink="settings" appA11yTitle="{{'settings' | i18n | async}}">
+                    <i class="fa fa-cogs fa-2x" aria-hidden="true"></i>{{'settings' | i18n | async}}
                 </a>
             </li>
         </ul>

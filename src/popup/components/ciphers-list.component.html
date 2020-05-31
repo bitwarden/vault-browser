@@ -6,12 +6,12 @@
             <span class="text">
                 {{c.name}}
                 <ng-container *ngIf="c.organizationId">
-                    <i class="fa fa-share-alt text-muted" title="{{'shared' | i18n}}" aria-hidden="true"></i>
-                    <span class="sr-only">{{'shared' | i18n}}</span>
+                    <i class="fa fa-share-alt text-muted" title="{{'shared' | i18n | async}}" aria-hidden="true"></i>
+                    <span class="sr-only">{{'shared' | i18n | async}}</span>
                 </ng-container>
                 <ng-container *ngIf="c.hasAttachments">
-                    <i class="fa fa-paperclip text-muted" title="{{'attachments' | i18n}}" aria-hidden="true"></i>
-                    <span class="sr-only">{{'attachments' | i18n}}</span>
+                    <i class="fa fa-paperclip text-muted" title="{{'attachments' | i18n | async}}" aria-hidden="true"></i>
+                    <span class="sr-only">{{'attachments' | i18n | async}}</span>
                 </ng-container>
             </span>
             <span class="detail">{{c.subTitle}}</span>

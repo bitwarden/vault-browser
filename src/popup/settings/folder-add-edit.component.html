@@ -1,14 +1,14 @@
 <form #form (ngSubmit)="submit()" [appApiAction]="formPromise">
     <header>
         <div class="left">
-            <a routerLink="/folders">{{'cancel' | i18n}}</a>
+            <a routerLink="/folders">{{'cancel' | i18n | async}}</a>
         </div>
         <div class="center">
             <span class="title">{{title}}</span>
         </div>
         <div class="right">
             <button type="submit" appBlurClick [disabled]="form.loading">
-                <span [hidden]="form.loading">{{'save' | i18n}}</span>
+                <span [hidden]="form.loading">{{'save' | i18n | async}}</span>
                 <i class="fa fa-spinner fa-lg fa-spin" [hidden]="!form.loading" aria-hidden="true"></i>
             </button>
         </div>
@@ -17,7 +17,7 @@
         <div class="box">
             <div class="box-content">
                 <div class="box-content-row" appBoxRow>
-                    <label for="name">{{'name' | i18n}}</label>
+                    <label for="name">{{'name' | i18n | async}}</label>
                     <input id="name" type="text" name="Name" [(ngModel)]="folder.name" [appAutofocus]="!editMode">
                 </div>
             </div>
@@ -31,7 +31,7 @@
                             <i class="fa fa-trash-o fa-lg fa-fw" [hidden]="deleteBtn.loading"></i>
                             <i class="fa fa-spinner fa-spin fa-lg fa-fw" [hidden]="!deleteBtn.loading"></i>
                         </div>
-                        <span>{{'deleteFolder' | i18n}}</span>
+                        <span>{{'deleteFolder' | i18n | async}}</span>
                     </div>
                 </a>
             </div>

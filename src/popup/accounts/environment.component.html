@@ -1,14 +1,14 @@
 <form #form class="modal-content" (ngSubmit)="submit()">
     <header>
         <div class="left">
-            <a routerLink="/home">{{'close' | i18n}}</a>
+            <a routerLink="/home">{{'close' | i18n | async}}</a>
         </div>
         <div class="center">
-            <span class="title">{{'appName' | i18n}}</span>
+            <span class="title">{{'appName' | i18n | async}}</span>
         </div>
         <div class="right">
             <button type="submit" appBlurClick [disabled]="form.loading">
-                <span [hidden]="form.loading">{{'save' | i18n}}</span>
+                <span [hidden]="form.loading">{{'save' | i18n | async}}</span>
                 <i class="fa fa-spinner fa-lg fa-spin" [hidden]="!form.loading" aria-hidden="true"></i>
             </button>
         </div>
@@ -16,51 +16,51 @@
     <content>
         <div class="box">
             <div class="box-header">
-                {{'selfHostedEnvironment' | i18n}}
+                {{'selfHostedEnvironment' | i18n | async}}
             </div>
             <div class="box-content">
                 <div class="box-content-row" appBoxRow>
-                    <label for="baseUrl">{{'baseUrl' | i18n}}</label>
+                    <label for="baseUrl">{{'baseUrl' | i18n | async}}</label>
                     <input id="baseUrl" type="text" name="BaseUrl" [(ngModel)]="baseUrl"
                         placeholder="ex. https://bitwarden.company.com" appInputVerbatim>
                 </div>
             </div>
             <div class="box-footer">
-                {{'selfHostedEnvironmentFooter' | i18n}}
+                {{'selfHostedEnvironmentFooter' | i18n | async}}
             </div>
         </div>
         <div class="box">
             <div class="box-header">
-                {{'customEnvironment' | i18n}}
+                {{'customEnvironment' | i18n | async}}
             </div>
             <div class="box-content" [hidden]="!showCustom">
                 <div class="box-content-row" appBoxRow>
-                    <label for="webVaultUrl">{{'webVaultUrl' | i18n}}</label>
+                    <label for="webVaultUrl">{{'webVaultUrl' | i18n | async}}</label>
                     <input id="webVaultUrl" type="text" name="WebVaultUrl" [(ngModel)]="webVaultUrl" inputmode="url"
                         appInputVerbatim>
                 </div>
                 <div class="box-content-row" appBoxRow>
-                    <label for="apiUrl">{{'apiUrl' | i18n}}</label>
+                    <label for="apiUrl">{{'apiUrl' | i18n | async}}</label>
                     <input id="apiUrl" type="text" name="ApiUrl" [(ngModel)]="apiUrl" inputmode="url" appInputVerbatim>
                 </div>
                 <div class="box-content-row" appBoxRow>
-                    <label for="identityUrl">{{'identityUrl' | i18n}}</label>
+                    <label for="identityUrl">{{'identityUrl' | i18n | async}}</label>
                     <input id="identityUrl" type="text" name="IdentityUrl" [(ngModel)]="identityUrl" inputmode="url"
                         appInputVerbatim>
                 </div>
                 <div class="box-content-row" appBoxRow>
-                    <label for="notificationsUrl">{{'notificationsUrl' | i18n}}</label>
+                    <label for="notificationsUrl">{{'notificationsUrl' | i18n | async}}</label>
                     <input id="notificationsUrl" type="text" name="NotificationsUrl" inputmode="url"
                         [(ngModel)]="notificationsUrl" appInputVerbatim>
                 </div>
                 <div class="box-content-row" appBoxRow>
-                    <label for="iconsUrl">{{'iconsUrl' | i18n}}</label>
+                    <label for="iconsUrl">{{'iconsUrl' | i18n | async}}</label>
                     <input id="iconsUrl" type="text" name="IconsUrl" [(ngModel)]="iconsUrl" inputmode="url"
                         appInputVerbatim>
                 </div>
             </div>
             <div class="box-footer" [hidden]="!showCustom">
-                {{'customEnvironmentFooter' | i18n}}
+                {{'customEnvironmentFooter' | i18n | async}}
             </div>
         </div>
     </content>

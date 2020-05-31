@@ -1,22 +1,22 @@
 <header>
     <div class="left">
-        <button type="button" appBlurClick (click)="close()">{{'close' | i18n}}</button>
+        <button type="button" appBlurClick (click)="close()">{{'close' | i18n | async}}</button>
     </div>
     <div class="center">
-        <span class="title">{{'viewItem' | i18n}}</span>
+        <span class="title">{{'viewItem' | i18n | async}}</span>
     </div>
     <div class="right">
-        <button type="button" appBlurClick (click)="edit()" *ngIf="!cipher.isDeleted">{{'edit' | i18n}}</button>
+        <button type="button" appBlurClick (click)="edit()" *ngIf="!cipher.isDeleted">{{'edit' | i18n | async}}</button>
     </div>
 </header>
 <content *ngIf="cipher">
     <div class="box">
         <div class="box-header">
-            {{'itemInformation' | i18n}}
+            {{'itemInformation' | i18n | async}}
         </div>
         <div class="box-content">
             <div class="box-content-row">
-                <span class="row-label">{{'name' | i18n}}</span>
+                <span class="row-label">{{'name' | i18n | async}}</span>
                 {{cipher.name}}
             </div>
             <!-- Login -->
@@ -24,11 +24,11 @@
                 <div class="box-content-row box-content-row-flex" *ngIf="cipher.login.username">
                     <div class="row-main">
                         <span class="row-label draggable" draggable="true"
-                            (dragstart)="setTextDataOnDrag($event, cipher.login.username)">{{'username' | i18n}}</span>
+                            (dragstart)="setTextDataOnDrag($event, cipher.login.username)">{{'username' | i18n | async}}</span>
                         {{cipher.login.username}}
                     </div>
                     <div class="action-buttons">
-                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyUsername' | i18n}}"
+                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyUsername' | i18n | async}}"
                             (click)="copy(cipher.login.username, 'username', 'Username')">
                             <i class="fa fa-lg fa-clipboard" aria-hidden="true"></i>
                         </a>
@@ -37,7 +37,7 @@
                 <div class="box-content-row box-content-row-flex" *ngIf="cipher.login.password">
                     <div class="row-main">
                         <span class="row-label draggable" draggable="true"
-                            (dragstart)="setTextDataOnDrag($event, cipher.login.password)">{{'password' | i18n}}</span>
+                            (dragstart)="setTextDataOnDrag($event, cipher.login.password)">{{'password' | i18n | async}}</span>
                         <div [hidden]="showPassword" class="monospaced">
                             {{cipher.login.maskedPassword}}</div>
                         <div [hidden]="!showPassword" class="monospaced password-wrapper" appSelectCopy
@@ -45,19 +45,19 @@
                     </div>
                     <div class="action-buttons">
                         <button type="button" #checkPasswordBtn class="row-btn btn" appBlurClick
-                            appA11yTitle="{{'checkPassword' | i18n}}" (click)="checkPassword()"
+                            appA11yTitle="{{'checkPassword' | i18n | async}}" (click)="checkPassword()"
                             [appApiAction]="checkPasswordPromise" [disabled]="checkPasswordBtn.loading">
                             <i class="fa fa-lg fa-check-circle" [hidden]="checkPasswordBtn.loading"
                                 aria-hidden="true"></i>
                             <i class="fa fa-lg fa-spinner fa-spin" [hidden]="!checkPasswordBtn.loading"
                                 aria-hidden="true"></i>
                         </button>
-                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'toggleVisibility' | i18n}}"
+                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'toggleVisibility' | i18n | async}}"
                             (click)="togglePassword()">
                             <i class="fa fa-lg" aria-hidden="true"
                                 [ngClass]="{'fa-eye': !showPassword, 'fa-eye-slash': showPassword}"></i>
                         </a>
-                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyPassword' | i18n}}"
+                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyPassword' | i18n | async}}"
                             (click)="copy(cipher.login.password, 'password', 'Password')">
                             <i class="fa fa-lg fa-clipboard" aria-hidden="true"></i>
                         </a>
@@ -67,7 +67,7 @@
                     *ngIf="cipher.login.totp && totpCode">
                     <div class="row-main">
                         <span class="row-label draggable" draggable="true"
-                            (dragstart)="setTextDataOnDrag($event, totpCode)">{{'verificationCodeTotp' | i18n}}</span>
+                            (dragstart)="setTextDataOnDrag($event, totpCode)">{{'verificationCodeTotp' | i18n | async}}</span>
                         <span class="totp-code">{{totpCodeFormatted}}</span>
                     </div>
                     <span class="totp-countdown">
@@ -81,7 +81,7 @@
                         </svg>
                     </span>
                     <div class="action-buttons">
-                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyVerificationCode' | i18n}}"
+                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyVerificationCode' | i18n | async}}"
                             (click)="copy(totpCode, 'verificationCodeTotp', 'TOTP')">
                             <i class="fa fa-lg fa-clipboard" aria-hidden="true"></i>
                         </a>
@@ -91,42 +91,42 @@
             <!-- Card -->
             <div *ngIf="cipher.card">
                 <div class="box-content-row" *ngIf="cipher.card.cardholderName">
-                    <span class="row-label">{{'cardholderName' | i18n}}</span>
+                    <span class="row-label">{{'cardholderName' | i18n | async}}</span>
                     {{cipher.card.cardholderName}}
                 </div>
                 <div class="box-content-row box-content-row-flex" *ngIf="cipher.card.number">
                     <div class="row-main">
-                        <span class="row-label">{{'number' | i18n}}</span>
+                        <span class="row-label">{{'number' | i18n | async}}</span>
                         {{cipher.card.number}}
                     </div>
                     <div class="action-buttons">
-                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyNumber' | i18n}}"
+                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyNumber' | i18n | async}}"
                             (click)="copy(cipher.card.number, 'number', 'Number')">
                             <i class="fa fa-lg fa-clipboard" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
                 <div class="box-content-row" *ngIf="cipher.card.brand">
-                    <span class="row-label">{{'brand' | i18n}}</span>
+                    <span class="row-label">{{'brand' | i18n | async}}</span>
                     {{cipher.card.brand}}
                 </div>
                 <div class="box-content-row" *ngIf="cipher.card.expiration">
-                    <span class="row-label">{{'expiration' | i18n}}</span>
+                    <span class="row-label">{{'expiration' | i18n | async}}</span>
                     {{cipher.card.expiration}}
                 </div>
                 <div class="box-content-row box-content-row-flex" *ngIf="cipher.card.code">
                     <div class="row-main">
-                        <span class="row-label">{{'securityCode' | i18n}}</span>
+                        <span class="row-label">{{'securityCode' | i18n | async}}</span>
                         <span [hidden]="showCardCode" class="monospaced">{{cipher.card.maskedCode}}</span>
                         <span [hidden]="!showCardCode" class="monospaced">{{cipher.card.code}}</span>
                     </div>
                     <div class="action-buttons">
-                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'toggleVisibility' | i18n}}"
+                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'toggleVisibility' | i18n | async}}"
                             (click)="toggleCardCode()">
                             <i class="fa fa-lg" aria-hidden="true"
                                 [ngClass]="{'fa-eye': !showCardCode, 'fa-eye-slash': showCardCode}"></i>
                         </a>
-                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copySecurityCode' | i18n}}"
+                        <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copySecurityCode' | i18n | async}}"
                             (click)="copy(cipher.card.code, 'securityCode', 'Security Code')">
                             <i class="fa fa-lg fa-clipboard" aria-hidden="true"></i>
                         </a>
@@ -136,40 +136,40 @@
             <!-- Identity -->
             <div *ngIf="cipher.identity">
                 <div class="box-content-row" *ngIf="cipher.identity.fullName">
-                    <span class="row-label">{{'identityName' | i18n}}</span>
+                    <span class="row-label">{{'identityName' | i18n | async}}</span>
                     {{cipher.identity.fullName}}
                 </div>
                 <div class="box-content-row" *ngIf="cipher.identity.username">
-                    <span class="row-label">{{'username' | i18n}}</span>
+                    <span class="row-label">{{'username' | i18n | async}}</span>
                     {{cipher.identity.username}}
                 </div>
                 <div class="box-content-row" *ngIf="cipher.identity.company">
-                    <span class="row-label">{{'company' | i18n}}</span>
+                    <span class="row-label">{{'company' | i18n | async}}</span>
                     {{cipher.identity.company}}
                 </div>
                 <div class="box-content-row" *ngIf="cipher.identity.ssn">
-                    <span class="row-label">{{'ssn' | i18n}}</span>
+                    <span class="row-label">{{'ssn' | i18n | async}}</span>
                     {{cipher.identity.ssn}}
                 </div>
                 <div class="box-content-row" *ngIf="cipher.identity.passportNumber">
-                    <span class="row-label">{{'passportNumber' | i18n}}</span>
+                    <span class="row-label">{{'passportNumber' | i18n | async}}</span>
                     {{cipher.identity.passportNumber}}
                 </div>
                 <div class="box-content-row" *ngIf="cipher.identity.licenseNumber">
-                    <span class="row-label">{{'licenseNumber' | i18n}}</span>
+                    <span class="row-label">{{'licenseNumber' | i18n | async}}</span>
                     {{cipher.identity.licenseNumber}}
                 </div>
                 <div class="box-content-row" *ngIf="cipher.identity.email">
-                    <span class="row-label">{{'email' | i18n}}</span>
+                    <span class="row-label">{{'email' | i18n | async}}</span>
                     {{cipher.identity.email}}
                 </div>
                 <div class="box-content-row" *ngIf="cipher.identity.phone">
-                    <span class="row-label">{{'phone' | i18n}}</span>
+                    <span class="row-label">{{'phone' | i18n | async}}</span>
                     {{cipher.identity.phone}}
                 </div>
                 <div class="box-content-row"
                     *ngIf="cipher.identity.address1 || cipher.identity.city || cipher.identity.country">
-                    <span class="row-label">{{'address' | i18n}}</span>
+                    <span class="row-label">{{'address' | i18n | async}}</span>
                     <div *ngIf="cipher.identity.address1">{{cipher.identity.address1}}</div>
                     <div *ngIf="cipher.identity.address2">{{cipher.identity.address2}}</div>
                     <div *ngIf="cipher.identity.address3">{{cipher.identity.address3}}</div>
@@ -183,16 +183,16 @@
         <div class="box-content">
             <div class="box-content-row box-content-row-flex" *ngFor="let u of cipher.login.uris; let i = index">
                 <div class="row-main">
-                    <span class="row-label" *ngIf="!u.isWebsite">{{'uri' | i18n}}</span>
-                    <span class="row-label" *ngIf="u.isWebsite">{{'website' | i18n}}</span>
+                    <span class="row-label" *ngIf="!u.isWebsite">{{'uri' | i18n | async}}</span>
+                    <span class="row-label" *ngIf="u.isWebsite">{{'website' | i18n | async}}</span>
                     <span title="{{u.uri}}">{{u.hostnameOrUri}}</span>
                 </div>
                 <div class="action-buttons">
-                    <a class="row-btn" href="#" appStopClick appA11yTitle="{{'launch' | i18n}}" *ngIf="u.canLaunch"
+                    <a class="row-btn" href="#" appStopClick appA11yTitle="{{'launch' | i18n | async}}" *ngIf="u.canLaunch"
                         (click)="launch(u)">
                         <i class="fa fa-lg fa-share-square-o" aria-hidden="true"></i>
                     </a>
-                    <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyUri' | i18n}}"
+                    <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyUri' | i18n | async}}"
                         (click)="copy(u.uri, u.isWebsite ? 'website' : 'uri', 'URI')">
                         <i class="fa fa-lg fa-clipboard" aria-hidden="true"></i>
                     </a>
@@ -202,7 +202,7 @@
     </div>
     <div class="box" *ngIf="cipher.notes">
         <div class="box-header">
-            {{'notes' | i18n}}
+            {{'notes' | i18n | async}}
         </div>
         <div class="box-content">
             <div class="box-content-row pre-wrap">{{cipher.notes}}</div>
@@ -210,7 +210,7 @@
     </div>
     <div class="box" *ngIf="cipher.hasFields">
         <div class="box-header">
-            {{'customFields' | i18n}}
+            {{'customFields' | i18n | async}}
         </div>
         <div class="box-content">
             <div class="box-content-row box-content-row-flex" *ngFor="let field of cipher.fields">
@@ -230,12 +230,12 @@
                     </div>
                 </div>
                 <div class="action-buttons">
-                    <a class="row-btn" href="#" appStopClick appA11yTitle="{{'toggleVisibility' | i18n}}"
+                    <a class="row-btn" href="#" appStopClick appA11yTitle="{{'toggleVisibility' | i18n | async}}"
                         *ngIf="field.type === fieldType.Hidden" (click)="toggleFieldValue(field)">
                         <i class="fa fa-lg" aria-hidden="true"
                             [ngClass]="{'fa-eye': !field.showValue, 'fa-eye-slash': field.showValue}"></i>
                     </a>
-                    <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyValue' | i18n}}"
+                    <a class="row-btn" href="#" appStopClick appA11yTitle="{{'copyValue' | i18n | async}}"
                         *ngIf="field.value && field.type !== fieldType.Boolean"
                         (click)="copy(field.value, 'value', field.type === fieldType.Hidden ? 'H_Field' : 'Field')">
                         <i class="fa fa-lg fa-clipboard" aria-hidden="true"></i>
@@ -246,7 +246,7 @@
     </div>
     <div class="box" *ngIf="cipher.hasAttachments && (canAccessPremium || cipher.organizationId) && showAttachments">
         <div class="box-header">
-            {{'attachments' | i18n}}
+            {{'attachments' | i18n | async}}
         </div>
         <div class="box-content">
             <a class="box-content-row box-content-row-flex text-default" *ngFor="let attachment of cipher.attachments"
@@ -267,7 +267,7 @@
                     <div class="icon text-primary" aria-hidden="true">
                         <i class="fa fa-clone fa-lg fa-fw"></i>
                     </div>
-                    <span>{{'cloneItem' | i18n}}</span>
+                    <span>{{'cloneItem' | i18n | async}}</span>
                 </div>
             </a>
             <a class="box-content-row" href="#" appStopClick appBlurClick (click)="restore()" *ngIf="cipher.isDeleted">
@@ -275,7 +275,7 @@
                     <div class="icon text-primary" aria-hidden="true">
                         <i class="fa fa-undo fa-lg fa-fw"></i>
                     </div>
-                    <span>{{'restoreItem' | i18n}}</span>
+                    <span>{{'restoreItem' | i18n | async}}</span>
                 </div>
             </a>
             <a class="box-content-row" href="#" appStopClick appBlurClick (click)="delete()">
@@ -283,7 +283,7 @@
                     <div class="icon text-danger" aria-hidden="true">
                         <i class="fa fa-trash-o fa-lg fa-fw"></i>
                     </div>
-                    <span>{{(cipher.isDeleted ? 'permanentlyDeleteItem' : 'deleteItem') | i18n}}</span>
+                    <span>{{(cipher.isDeleted ? 'permanentlyDeleteItem' : 'deleteItem') | i18n | async}}</span>
                 </div>
             </a>
         </div>
@@ -291,17 +291,17 @@
     <div class="box">
         <div class="box-footer">
             <div>
-                <b class="font-weight-semibold">{{'dateUpdated' | i18n}}:</b>
+                <b class="font-weight-semibold">{{'dateUpdated' | i18n | async}}:</b>
                 {{cipher.revisionDate | date:'medium'}}
             </div>
             <div *ngIf="cipher.passwordRevisionDisplayDate">
-                <b class="font-weight-semibold">{{'datePasswordUpdated' | i18n}}:</b>
+                <b class="font-weight-semibold">{{'datePasswordUpdated' | i18n | async}}:</b>
                 {{cipher.passwordRevisionDisplayDate | date:'medium'}}
             </div>
             <div *ngIf="cipher.hasPasswordHistory">
-                <b class="font-weight-semibold">{{'passwordHistory' | i18n}}:</b>
+                <b class="font-weight-semibold">{{'passwordHistory' | i18n | async}}:</b>
                 <a routerLink="/cipher-password-history" [queryParams]="{cipherId: cipher.id}" appStopClick
-                    title="{{'passwordHistory' | i18n}}">
+                    title="{{'passwordHistory' | i18n | async}}">
                     {{cipher.passwordHistory.length}}
                 </a>
             </div>
