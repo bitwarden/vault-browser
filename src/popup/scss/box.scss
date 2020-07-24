@@ -426,6 +426,24 @@
         width: calc(100% - 25px);
     }
 
+    div.timeout-duration {
+        display: flex;
+        flex-direction: row;
+
+        input {
+            border: 1px solid #cbcbcb;
+            border-radius: 3px;
+        }
+        input.btn {
+            margin-inline-start: 10px;
+            width: 20%;
+        }
+        input.updated {
+            border-width: 2px;
+            border-color: #CCCC00;
+        }
+    }
+
     .row-sub-icon, .row-sub-label + i.fa {
         @include themify($themes) {
             color: themed('disabledIconColor');

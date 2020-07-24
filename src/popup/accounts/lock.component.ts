@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { ApiService } from 'jslib/abstractions/api.service';
 import { CryptoService } from 'jslib/abstractions/crypto.service';
 import { EnvironmentService } from 'jslib/abstractions/environment.service';
 import { I18nService } from 'jslib/abstractions/i18n.service';
@@ -22,9 +23,9 @@ export class LockComponent extends BaseLockComponent {
         platformUtilsService: PlatformUtilsService, messagingService: MessagingService,
         userService: UserService, cryptoService: CryptoService,
         storageService: StorageService, vaultTimeoutService: VaultTimeoutService,
-        environmentService: EnvironmentService, stateService: StateService) {
+        environmentService: EnvironmentService, stateService: StateService, apiService: ApiService) {
         super(router, i18nService, platformUtilsService, messagingService, userService, cryptoService,
-            storageService, vaultTimeoutService, environmentService, stateService);
+            storageService, vaultTimeoutService, environmentService, stateService, apiService);
         this.successRoute = '/tabs/current';
     }
 

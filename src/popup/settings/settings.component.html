@@ -26,10 +26,20 @@
         <div class="box-content single-line">
             <div class="box-content-row display-block" appBoxRow>
                 <label for="vaultTimeout">{{'vaultTimeout' | i18n}}</label>
-                <select #vaultTimeoutSelect id="vaultTimeout" name="VaultTimeouts" [ngModel]="vaultTimeout"
-                    (ngModelChange)="saveVaultTimeout($event)">
+                <select #vaultTimeoutSelect id="vaultTimeout" name="VaultTimeouts" [ngModel]="selectedTimeoutType"
+                    (ngModelChange)="saveVaultTimeoutType($event)">
                     <option *ngFor="let o of vaultTimeouts" [ngValue]="o.value">{{o.name}}</option>
                 </select>
+
+                <div [hidden]="selectedTimeoutType !== 'numMinute'">
+                    <!-- TODO: Translation -->
+                    <label for="timeoutDuration">Timeout (minute)</label>
+                    <div class="timeout-duration">
+                        <input id="timeoutDuration" #timeoutDurationInput type="number" (ngModelChange)="changeTimeoutDuration($event)"
+                               [ngClass]="{'updated' : (vaultTimeout.type !== 'numMinute') || (timeoutDurationMin !== vaultTimeout.value)}" [ngModel]="timeoutDurationMin">
+                        <input class="btn" type="button" (click)="saveTimeoutDuration()"  value="Save">
+                    </div>
+                </div>
             </div>
             <div class="box-content-row display-block" appBoxRow>
                 <label for="vaultTimeoutAction">{{'vaultTimeoutAction' | i18n}}</label>

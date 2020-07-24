@@ -1,4 +1,4 @@
 [submodule "jslib"]
 	path = jslib
-	url = https://github.com/bitwarden/jslib.git
-	branch = master
+	url = git@github.com:naokiri/jslib.git
+	branch = LockOptionType

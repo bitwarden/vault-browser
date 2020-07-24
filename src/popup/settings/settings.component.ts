@@ -9,12 +9,6 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BrowserApi } from '../../browser/browserApi';
-
-import { DeviceType } from 'jslib/enums/deviceType';
-
-import { ConstantsService } from 'jslib/services/constants.service';
-
 import { CryptoService } from 'jslib/abstractions/crypto.service';
 import { EnvironmentService } from 'jslib/abstractions/environment.service';
 import { I18nService } from 'jslib/abstractions/i18n.service';
@@ -23,6 +17,21 @@ import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
 import { StorageService } from 'jslib/abstractions/storage.service';
 import { UserService } from 'jslib/abstractions/user.service';
 import { VaultTimeoutService } from 'jslib/abstractions/vaultTimeout.service';
+
+import { DeviceType } from 'jslib/enums/deviceType';
+import {
+    LOCK_OPTION_SPECIAL_TYPE_VALUES,
+    TIMEOUT_NEVER,
+    TIMEOUT_ON_IDLE,
+    TIMEOUT_ON_LOCKED,
+    TIMEOUT_ON_RESTART,
+    TIMEOUT_ON_SLEEP,
+    TimeoutNonDurationType, TimeoutType, TimeoutValueType,
+} from 'jslib/enums/timeoutType';
+
+import { ConstantsService } from 'jslib/services/constants.service';
+
+import { BrowserApi } from '../../browser/browserApi';
 
 const RateUrls = {
     [DeviceType.ChromeExtension]:
@@ -39,63 +48,129 @@ const RateUrls = {
         'https://apps.apple.com/app/bitwarden/id1352778147',
 };
 
+interface ITimeoutTypeModel {
+    name: string;
+    value: TimeoutType;
+}
+
 @Component({
     selector: 'app-settings',
     templateUrl: 'settings.component.html',
 })
 export class SettingsComponent implements OnInit {
-    @ViewChild('vaultTimeoutSelect', { read: ElementRef }) vaultTimeoutSelectRef: ElementRef;
-    @ViewChild('vaultTimeoutActionSelect', { read: ElementRef }) vaultTimeoutActionSelectRef: ElementRef;
-    vaultTimeouts: any[];
-    vaultTimeout: number = null;
+    @ViewChild('vaultTimeoutSelect', {read: ElementRef}) vaultTimeoutSelectRef: ElementRef;
+    @ViewChild('timeoutDurationInput') timeoutDurationRef: ElementRef;
+    @ViewChild('vaultTimeoutActionSelect', {read: ElementRef}) vaultTimeoutActionSelectRef: ElementRef;
+    // The lock option values shown in UI.
+    selectedTimeoutType: TimeoutType;
+    timeoutDurationMin: number = null;
+    // The lock option in use.
+    vaultTimeout: TimeoutValueType = null;
+    vaultTimeouts: ITimeoutTypeModel[];
     vaultTimeoutActions: any[];
     vaultTimeoutAction: string;
     pin: boolean = null;
-    previousVaultTimeout: number = null;
+    previousVaultTimeout: TimeoutValueType = null;
 
     constructor(private platformUtilsService: PlatformUtilsService, private i18nService: I18nService,
-        private analytics: Angulartics2, private vaultTimeoutService: VaultTimeoutService,
-        private storageService: StorageService, public messagingService: MessagingService,
-        private router: Router, private environmentService: EnvironmentService,
-        private cryptoService: CryptoService, private userService: UserService) {
+                private analytics: Angulartics2, private vaultTimeoutService: VaultTimeoutService,
+                private storageService: StorageService, public messagingService: MessagingService,
+                private router: Router, private environmentService: EnvironmentService,
+                private cryptoService: CryptoService, private userService: UserService) {
+    }
+
+    /**
+     * @internal
+     * Convert historically used old number lockOption into the typed one.
+     */
+    vaultTimeoutToTypedVaultTimeout(value: number | TimeoutValueType): TimeoutValueType {
+        if (value === null) {
+            return {type: 'never', value: null};
+        } else if (typeof value === 'number') {
+            switch (value) {
+                case -1:
+                    return TIMEOUT_ON_RESTART;
+                case -2:
+                    return TIMEOUT_ON_LOCKED;
+                case -3:
+                    return TIMEOUT_ON_SLEEP;
+                case -4:
+                    return TIMEOUT_ON_IDLE;
+                default:
+                    return {type: 'numMinute', value: this.scaleTimeoutMin(value)};
+            }
+        } else {
+            return value;
+        }
+    }
+
+    async changeTimeoutDuration(newValue: number) {
+        const scaledValue = this.scaleTimeoutMin(newValue);
+        this.timeoutDurationRef.nativeElement.value = scaledValue;
+        this.timeoutDurationMin = scaledValue;
+    }
+
+    scaleTimeoutMin(value: number): number {
+        if (value < 0) {
+            return 0;
+        }
+        // Max to 24 hours
+        if (value > 1440) {
+            return 1440;
+        }
+        return value;
+    }
+
+    async saveTimeoutDuration() {
+        await this.saveLockOption({type: 'numMinute', value: this.timeoutDurationMin});
     }
 
     async ngOnInit() {
         const showOnLocked = !this.platformUtilsService.isFirefox() && !this.platformUtilsService.isEdge()
             && !this.platformUtilsService.isSafari();
 
-        this.vaultTimeouts = [
-            { name: this.i18nService.t('immediately'), value: 0 },
-            { name: this.i18nService.t('oneMinute'), value: 1 },
-            { name: this.i18nService.t('fiveMinutes'), value: 5 },
-            { name: this.i18nService.t('fifteenMinutes'), value: 15 },
-            { name: this.i18nService.t('thirtyMinutes'), value: 30 },
-            { name: this.i18nService.t('oneHour'), value: 60 },
-            { name: this.i18nService.t('fourHours'), value: 240 },
-            // { name: i18nService.t('onIdle'), value: -4 },
-            // { name: i18nService.t('onSleep'), value: -3 },
-        ];
+        this.vaultTimeouts = [];
 
         if (showOnLocked) {
-            this.vaultTimeouts.push({ name: this.i18nService.t('onLocked'), value: -2 });
+            this.vaultTimeouts.push({name: this.i18nService.t('onLocked'), value: TIMEOUT_ON_LOCKED.type});
         }
 
-        this.vaultTimeouts.push({ name: this.i18nService.t('onRestart'), value: -1 });
-        this.vaultTimeouts.push({ name: this.i18nService.t('never'), value: null });
+        this.vaultTimeouts.push({name: this.i18nService.t('onRestart'), value: TIMEOUT_ON_RESTART.type});
+        this.vaultTimeouts.push({name: this.i18nService.t('never'), value: TIMEOUT_NEVER.type});
 
         this.vaultTimeoutActions = [
-            { name: this.i18nService.t('lock'), value: 'lock' },
-            { name: this.i18nService.t('logOut'), value: 'logOut' },
+            {name: this.i18nService.t('lock'), value: 'lock'},
+            {name: this.i18nService.t('logOut'), value: 'logOut'},
         ];
 
-        let timeout = await this.storageService.get<number>(ConstantsService.vaultTimeoutKey);
-        if (timeout != null) {
-            if (timeout === -2 && !showOnLocked) {
-                timeout = -1;
-            }
-            this.vaultTimeout = timeout;
+        const storedTimeout =
+            await this.storageService.get<number | TimeoutValueType>(ConstantsService.vaultTimeoutKey);
+        let option = this.vaultTimeoutToTypedVaultTimeout(storedTimeout);
+
+        if (option.type === TIMEOUT_ON_LOCKED.type && !showOnLocked) {
+            option = TIMEOUT_ON_RESTART;
         }
+        this.vaultTimeout = option;
+        this.selectedTimeoutType = this.vaultTimeout.type;
+
+        if (this.vaultTimeout.type === 'numMinute') {
+            this.timeoutDurationMin = this.vaultTimeout.value;
+            // TODO: Translation
+            this.vaultTimeouts.push({
+                name: 'Lock after specified minutes',
+                value: 'numMinute',
+            });
+        } else {
+            this.timeoutDurationMin = this.getDefaultTimeoutDuration();
+            this.vaultTimeouts.push({
+                name: 'Lock after specified minutes',
+                value: 'numMinute',
+            });
+        }
+        await this.changeTimeoutDuration(this.timeoutDurationMin);
+
         this.previousVaultTimeout = this.vaultTimeout;
+
         const action = await this.storageService.get<string>(ConstantsService.vaultTimeoutActionKey);
         this.vaultTimeoutAction = action == null ? 'lock' : action;
 
@@ -103,26 +178,51 @@ export class SettingsComponent implements OnInit {
         this.pin = pinSet[0] || pinSet[1];
     }
 
-    async saveVaultTimeout(newValue: number) {
-        if (newValue == null) {
+    /**
+     * @internal
+     * given that user didn't confirm their selection, revert the selection of lockOptionType
+     */
+    revertLockOptionTypeUISelection() {
+        this.vaultTimeouts.forEach((option: any, i) => {
+            if (option.value === this.vaultTimeout.type) {
+                this.vaultTimeoutSelectRef.nativeElement.selectedIndex = i;
+            }
+        });
+
+    }
+
+    async saveVaultTimeoutType(newVaultTimeout: TimeoutType) {
+        if (newVaultTimeout === null || newVaultTimeout === TIMEOUT_NEVER.type) {
             const confirmed = await this.platformUtilsService.showDialog(
                 this.i18nService.t('neverLockWarning'), null,
                 this.i18nService.t('yes'), this.i18nService.t('cancel'), 'warning');
             if (!confirmed) {
-                this.vaultTimeouts.forEach((option: any, i) => {
-                    if (option.value === this.vaultTimeout) {
-                        this.vaultTimeoutSelectRef.nativeElement.value = i + ': ' + this.vaultTimeout;
-                    }
-                });
-                return;
+                this.revertLockOptionTypeUISelection();
+                newVaultTimeout = this.vaultTimeout.type;
             }
         }
+
+        this.selectedTimeoutType = newVaultTimeout;
+
+        if (newVaultTimeout === null || newVaultTimeout !== 'numMinute') {
+            const specialLockOptionType: TimeoutNonDurationType = newVaultTimeout as TimeoutNonDurationType;
+            this.saveLockOption(LOCK_OPTION_SPECIAL_TYPE_VALUES.get(specialLockOptionType));
+        }
+    }
+
+    async saveLockOption(lockType: TimeoutValueType) {
         this.previousVaultTimeout = this.vaultTimeout;
-        this.vaultTimeout = newValue;
-        await this.vaultTimeoutService.setVaultTimeoutOptions(this.vaultTimeout != null ? this.vaultTimeout : null,
+        this.vaultTimeout = lockType;
+        await this.vaultTimeoutService.setVaultTimeoutOptions(
+            this.vaultTimeout != null ? this.vaultTimeout : null,
             this.vaultTimeoutAction);
+
         if (this.previousVaultTimeout == null) {
             this.messagingService.send('bgReseedStorage');
+        }
+        this.selectedTimeoutType = this.vaultTimeout.type;
+        if (this.vaultTimeout.type === 'numMinute') {
+            this.timeoutDurationMin = this.vaultTimeout.value;
         }
     }
 
@@ -144,6 +244,10 @@ export class SettingsComponent implements OnInit {
         this.vaultTimeoutAction = newValue;
         await this.vaultTimeoutService.setVaultTimeoutOptions(this.vaultTimeout != null ? this.vaultTimeout : null,
             this.vaultTimeoutAction);
+    }
+
+    getDefaultTimeoutDuration() {
+        return 30;
     }
 
     async updatePin() {
@@ -206,7 +310,7 @@ export class SettingsComponent implements OnInit {
     }
 
     async lock() {
-        this.analytics.eventTrack.next({ action: 'Lock Now' });
+        this.analytics.eventTrack.next({action: 'Lock Now'});
         await this.vaultTimeoutService.lock(true);
     }
 
@@ -220,7 +324,7 @@ export class SettingsComponent implements OnInit {
     }
 
     async changePassword() {
-        this.analytics.eventTrack.next({ action: 'Clicked Change Password' });
+        this.analytics.eventTrack.next({action: 'Clicked Change Password'});
         const confirmed = await this.platformUtilsService.showDialog(
             this.i18nService.t('changeMasterPasswordConfirmation'), this.i18nService.t('changeMasterPassword'),
             this.i18nService.t('yes'), this.i18nService.t('cancel'));
@@ -230,7 +334,7 @@ export class SettingsComponent implements OnInit {
     }
 
     async twoStep() {
-        this.analytics.eventTrack.next({ action: 'Clicked Two-step Login' });
+        this.analytics.eventTrack.next({action: 'Clicked Two-step Login'});
         const confirmed = await this.platformUtilsService.showDialog(
             this.i18nService.t('twoStepLoginConfirmation'), this.i18nService.t('twoStepLogin'),
             this.i18nService.t('yes'), this.i18nService.t('cancel'));
@@ -240,7 +344,7 @@ export class SettingsComponent implements OnInit {
     }
 
     async share() {
-        this.analytics.eventTrack.next({ action: 'Clicked Share Vault' });
+        this.analytics.eventTrack.next({action: 'Clicked Share Vault'});
         const confirmed = await this.platformUtilsService.showDialog(
             this.i18nService.t('shareVaultConfirmation'), this.i18nService.t('shareVault'),
             this.i18nService.t('yes'), this.i18nService.t('cancel'));
@@ -250,7 +354,7 @@ export class SettingsComponent implements OnInit {
     }
 
     async webVault() {
-        this.analytics.eventTrack.next({ action: 'Clicked Web Vault' });
+        this.analytics.eventTrack.next({action: 'Clicked Web Vault'});
         let url = this.environmentService.getWebVaultUrl();
         if (url == null) {
             url = 'https://vault.bitwarden.com';
@@ -259,7 +363,7 @@ export class SettingsComponent implements OnInit {
     }
 
     import() {
-        this.analytics.eventTrack.next({ action: 'Clicked Import Items' });
+        this.analytics.eventTrack.next({action: 'Clicked Import Items'});
         BrowserApi.createNewTab('https://help.bitwarden.com/article/import-data/');
     }
 
@@ -273,12 +377,12 @@ export class SettingsComponent implements OnInit {
     }
 
     help() {
-        this.analytics.eventTrack.next({ action: 'Clicked Help and Feedback' });
+        this.analytics.eventTrack.next({action: 'Clicked Help and Feedback'});
         BrowserApi.createNewTab('https://help.bitwarden.com/');
     }
 
     about() {
-        this.analytics.eventTrack.next({ action: 'Clicked About' });
+        this.analytics.eventTrack.next({action: 'Clicked About'});
 
         const year = (new Date()).getFullYear();
         const versionText = document.createTextNode(
@@ -299,7 +403,7 @@ export class SettingsComponent implements OnInit {
     }
 
     async fingerprint() {
-        this.analytics.eventTrack.next({ action: 'Clicked Fingerprint' });
+        this.analytics.eventTrack.next({action: 'Clicked Fingerprint'});
 
         const fingerprint = await this.cryptoService.getFingerprint(await this.userService.getUserId());
         const p = document.createElement('p');
@@ -326,7 +430,7 @@ export class SettingsComponent implements OnInit {
     }
 
     rate() {
-        this.analytics.eventTrack.next({ action: 'Rate Extension' });
+        this.analytics.eventTrack.next({action: 'Rate Extension'});
         let deviceType = this.platformUtilsService.getDevice();
         if (window.navigator.userAgent.indexOf('Edg/') > -1) {
             deviceType = DeviceType.EdgeExtension;
