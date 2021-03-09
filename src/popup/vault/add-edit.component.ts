@@ -7,6 +7,7 @@ import {
 
 import { BrowserApi } from '../../browser/browserApi';
 
+import { ApiService } from 'jslib/abstractions/api.service';
 import { AuditService } from 'jslib/abstractions/audit.service';
 import { CipherService } from 'jslib/abstractions/cipher.service';
 import { CollectionService } from 'jslib/abstractions/collection.service';
@@ -33,6 +34,7 @@ export class AddEditComponent extends BaseAddEditComponent {
     currentUris: string[];
     showAttachments = true;
     openAttachmentsInPopup: boolean;
+    defaultUsernames: string[] = [];
 
     constructor(cipherService: CipherService, folderService: FolderService,
         i18nService: I18nService, platformUtilsService: PlatformUtilsService,
@@ -41,7 +43,7 @@ export class AddEditComponent extends BaseAddEditComponent {
         messagingService: MessagingService, private route: ActivatedRoute,
         private router: Router, private location: Location,
         eventService: EventService, policyService: PolicyService,
-        private popupUtilsService: PopupUtilsService) {
+        private popupUtilsService: PopupUtilsService, protected apiService: ApiService) {
         super(cipherService, folderService, i18nService, platformUtilsService, auditService, stateService,
             userService, collectionService, messagingService, eventService, policyService);
     }
@@ -84,6 +86,12 @@ export class AddEditComponent extends BaseAddEditComponent {
             }
             if (queryParamsSub != null) {
                 queryParamsSub.unsubscribe();
+            }
+
+            const response = await this.apiService.getSettingsDefaultUsernames();
+            if (response.defaultUsernames != null) {
+                this.defaultUsernames = response.defaultUsernames;
+                this.defaultUsernames.unshift('');
             }
 
             this.openAttachmentsInPopup = this.popupUtilsService.inPopup(window);

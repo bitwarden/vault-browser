@@ -39,6 +39,12 @@
                         <input id="loginUsername" type="text" name="Login.Username" [(ngModel)]="cipher.login.username"
                             inputmode="email" appInputVerbatim>
                     </div>
+                    <div class="box-content-row" appBoxRow *ngIf="!viewOnly && defaultUsernames.length > 0">
+                        <label for="defaultUsernames">{{'defaultUsernames' | i18n}}</label>
+                        <select id="defaultUsername" name="DefaultUsername" [(ngModel)]="cipher.login.username" class="form-control" >
+                            <option *ngFor="let u of defaultUsernames" [ngValue]="u">{{u}}</option>
+                        </select>
+                    </div>
                     <div class="box-content-row box-content-row-flex" appBoxRow>
                         <div class="row-main">
                             <label for="loginPassword">{{'password' | i18n}}</label>
