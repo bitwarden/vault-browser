@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "جستجوی مجموعه"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "نوع جستجو"
   },

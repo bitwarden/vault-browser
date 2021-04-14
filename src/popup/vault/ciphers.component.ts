@@ -22,6 +22,7 @@ import { I18nService } from 'jslib/abstractions/i18n.service';
 import { PlatformUtilsService } from 'jslib/abstractions/platformUtils.service';
 import { SearchService } from 'jslib/abstractions/search.service';
 import { StateService } from 'jslib/abstractions/state.service';
+import { UserService } from 'jslib/abstractions/user.service';
 
 import { CipherType } from 'jslib/enums/cipherType';
 
@@ -48,6 +49,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
     state: any;
     folderId: string = null;
     collectionId: string = null;
+    organizationId: string = null;
     type: CipherType = null;
     nestedFolders: TreeNode<FolderView>[];
     nestedCollections: TreeNode<CollectionView>[];
@@ -64,7 +66,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
         private popupUtils: PopupUtilsService, private i18nService: I18nService,
         private folderService: FolderService, private collectionService: CollectionService,
         private analytics: Angulartics2, private platformUtilsService: PlatformUtilsService,
-        private cipherService: CipherService) {
+        private cipherService: CipherService, private userService: UserService) {
         super(searchService);
         this.pageSize = 100;
         this.applySavedState = (window as any).previousPopupUrl != null &&
@@ -129,6 +131,12 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
                         collectionNode.children : null;
                 }
                 await this.load(c => c.collectionIds != null && c.collectionIds.indexOf(this.collectionId) > -1);
+            } else if (params.organizationId) {
+                const organization = await this.userService.getOrganization(params.organizationId);
+                this.groupingTitle = organization.name;
+                this.organizationId = params.organizationId;
+                this.searchPlaceholder = this.i18nService.t('searchOrganization');
+                await this.load(c => c.organizationId != null && c.organizationId == this.organizationId);
             } else {
                 this.groupingTitle = this.i18nService.t('allItems');
                 await this.load();
@@ -214,6 +222,7 @@ export class CiphersComponent extends BaseCiphersComponent implements OnInit, On
                 folderId: this.folderId,
                 type: this.type,
                 collectionId: this.collectionId,
+                organizationId: this.organizationId,
             },
         });
     }

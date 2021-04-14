@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Претражи колекцију"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Тип претраге"
   },

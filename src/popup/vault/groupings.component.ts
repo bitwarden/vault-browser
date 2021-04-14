@@ -30,6 +30,7 @@ import { StateService } from 'jslib/abstractions/state.service';
 import { StorageService } from 'jslib/abstractions/storage.service';
 import { SyncService } from 'jslib/abstractions/sync.service';
 import { UserService } from 'jslib/abstractions/user.service';
+import { Organization } from 'jslib/models/domain/organization';
 
 import { BroadcasterService } from 'jslib/angular/services/broadcaster.service';
 
@@ -48,8 +49,10 @@ export class GroupingsComponent extends BaseGroupingsComponent implements OnInit
     ciphers: CipherView[];
     favoriteCiphers: CipherView[];
     noFolderCiphers: CipherView[];
+    allOrganizations: Organization[];
     folderCounts = new Map<string, number>();
     collectionCounts = new Map<string, number>();
+    organizationCounts = new Map<string, number>();
     typeCounts = new Map<CipherType, number>();
     searchText: string;
     state: any;
@@ -88,6 +91,10 @@ export class GroupingsComponent extends BaseGroupingsComponent implements OnInit
 
     get folderCount(): number {
         return this.nestedFolders.length - (this.showNoFolderCiphers ? 0 : 1);
+    }
+
+    get organizationCount(): number {
+        return this.allOrganizations ? this.allOrganizations.length : 0;
     }
 
     async ngOnInit() {
@@ -163,6 +170,7 @@ export class GroupingsComponent extends BaseGroupingsComponent implements OnInit
     }
 
     async loadCiphers() {
+        this.allOrganizations = await this.userService.getAllOrganizations();
         this.allCiphers = await this.cipherService.getAllDecrypted();
         if (!this.hasLoadedAllCiphers) {
             this.hasLoadedAllCiphers = !this.searchService.isSearchable(this.searchText);
@@ -174,6 +182,7 @@ export class GroupingsComponent extends BaseGroupingsComponent implements OnInit
         const folderCounts = new Map<string, number>();
         const collectionCounts = new Map<string, number>();
         const typeCounts = new Map<CipherType, number>();
+        const organizationCounts = new Map<string, number>();
 
         this.ciphers.forEach(c => {
             if (c.isDeleted) {
@@ -214,6 +223,14 @@ export class GroupingsComponent extends BaseGroupingsComponent implements OnInit
                     }
                 });
             }
+
+            if (c.organizationId) {
+                if (organizationCounts.has(c.organizationId)) {
+                    organizationCounts.set(c.organizationId, organizationCounts.get(c.organizationId) + 1);
+                } else {
+                    organizationCounts.set(c.organizationId, 1);
+                }
+            }
         });
 
         this.favoriteCiphers = favoriteCiphers;
@@ -221,6 +238,7 @@ export class GroupingsComponent extends BaseGroupingsComponent implements OnInit
         this.typeCounts = typeCounts;
         this.folderCounts = folderCounts;
         this.collectionCounts = collectionCounts;
+        this.organizationCounts = organizationCounts;
     }
 
     async search(timeout: number = null) {
@@ -259,6 +277,10 @@ export class GroupingsComponent extends BaseGroupingsComponent implements OnInit
     async selectCollection(collection: CollectionView) {
         super.selectCollection(collection);
         this.router.navigate(['/ciphers'], { queryParams: { collectionId: collection.id } });
+    }
+
+    async selectOrganization(organization: Organization) {
+        this.router.navigate(['/ciphers'], { queryParams: { organizationId: organization.id } });
     }
 
     async selectTrash() {
@@ -360,7 +382,7 @@ export class GroupingsComponent extends BaseGroupingsComponent implements OnInit
 
     closeOnEsc(e: KeyboardEvent) {
         // If input not empty, use browser default behavior of clearing input instead
-		if (e.key === 'Escape' && (this.searchText == null || this.searchText === '')) {
+        if (e.key === 'Escape' && (this.searchText == null || this.searchText === '')) {
             BrowserApi.closePopup(window);
         }
     }

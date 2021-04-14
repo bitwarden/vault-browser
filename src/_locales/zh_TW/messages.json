@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "搜尋集合"
   },
+  "searchOrganization": {
+    "message": "搜尋組織"
+  },
   "searchType": {
     "message": "搜尋類型"
   },

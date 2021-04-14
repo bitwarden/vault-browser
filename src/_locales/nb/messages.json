@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Søk i samling"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Søketype"
   },

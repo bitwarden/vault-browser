@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "കളക്ഷൻസ് തിരയുക "
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "തരം തിരയുന്നു"
   },

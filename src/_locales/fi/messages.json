@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Hae kokoelmasta"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Hae tyypeistä"
   },

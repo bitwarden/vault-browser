@@ -94,6 +94,25 @@
                 </a>
             </div>
         </div>
+        <div class="box list" *ngIf="allOrganizations && allOrganizations.length">
+            <div class="box-header">
+                {{'organization' | i18n}}
+                <span class="flex-right">{{organizationCount}}</span>
+            </div>
+            <div class="box-content single-line">
+                <a *ngFor="let org of allOrganizations" href="#" class="box-content-row" appStopClick appBlurClick
+                    (click)="selectOrganization(org)">
+                    <div class="row-main">
+                        <div class="icon">
+                            <i class="fa fa-fw fa-lg fa-sitemap"></i>
+                        </div>
+                        <span class="text">{{org.name}}</span>
+                    </div>
+                    <span class="row-sub-label">{{organizationCounts.get(org.id) || 0}}</span>
+                    <span><i class="fa fa-chevron-right fa-lg row-sub-icon"></i></span>
+                </a>
+            </div>
+        </div>
         <div class="box list" *ngIf="nestedCollections && nestedCollections.length">
             <div class="box-header">
                 {{'collections' | i18n}}
@@ -111,6 +130,7 @@
                 </a>
             </div>
         </div>
+
         <div class="box list" *ngIf="showNoFolderCiphers">
             <div class="box-header">
                 {{'noneFolder' | i18n}}

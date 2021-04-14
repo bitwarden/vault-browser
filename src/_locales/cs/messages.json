@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Vyledat v kolekci"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Typ hledání"
   },

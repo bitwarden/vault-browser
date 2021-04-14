@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Sammlung durchsuchen"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Suchmodus"
   },

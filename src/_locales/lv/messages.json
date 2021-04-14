@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Meklēt krājumā"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Meklēšanas veids"
   },

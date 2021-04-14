@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Tìm kiếm bộ sưu tập"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Tìm mục"
   },

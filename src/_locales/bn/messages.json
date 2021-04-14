@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "সংগ্রহ অনুসন্ধান"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "অনুসন্ধানের ধরন"
   },

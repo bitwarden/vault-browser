@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "컬렉션 검색"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "검색 유형"
   },

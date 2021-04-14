@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Pretraživanje zbirke"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Tip pretrage"
   },

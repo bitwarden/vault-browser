@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Αναζήτηση στη συλλογή"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Τύπος αναζήτησης"
   },

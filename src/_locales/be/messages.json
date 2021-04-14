@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Пошук у калекцыі"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Пошук па тыпу"
   },

@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Verzameling doorzoeken"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Categorie doorzoeken"
   },

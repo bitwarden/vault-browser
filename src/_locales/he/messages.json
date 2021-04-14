@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "חפש אוסף"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "חפש סוג"
   },

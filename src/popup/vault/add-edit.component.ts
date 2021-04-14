@@ -56,6 +56,9 @@ export class AddEditComponent extends BaseAddEditComponent {
             if (params.folderId) {
                 this.folderId = params.folderId;
             }
+            if (params.organizationId) {
+                this.organizationId = params.organizationId;
+            }
             if (params.collectionId) {
                 const collection = this.writeableCollections.find(c => c.id === params.collectionId);
                 if (collection != null) {

@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Cari koleksi"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Jenis pencarian"
   },

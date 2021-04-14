@@ -515,6 +515,9 @@
   "searchCollection": {
     "message": "Szukaj w kolekcji"
   },
+  "searchOrganization": {
+    "message": "Search organization"
+  },
   "searchType": {
     "message": "Szukaj elementu"
   },
