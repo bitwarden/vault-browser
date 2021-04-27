@@ -227,9 +227,10 @@
                     </div>
                     <div *ngIf="field.type === fieldType.Hidden">
                         <span [hidden]="!field.showValue || field.showCount" class="monospaced show-whitespace">{{field.value}}</span>
-                        <span class="monospaced" *ngFor="let l of field.arrayValue; index as i"
-                            [hidden]="!field.showValue || !field.showCount">
-                            <span class="text-muted">{{i + 1}}:</span><span class="font-weight-semibold">{{l}} </span>
+                        <span *ngFor="let l of field.arrayValue; index as i" [hidden]="!field.showValue || !field.showCount">
+                            <span class="password-count" [ngClass]="{'sm': i < 9, 'md': i >= 9 && i < 99, 'lg': i >= 99}">{{l}}
+                                <span class="password-sub" [ngClass]="{'sm': i < 9, 'md': i >= 9 && i < 99, 'lg': i >= 99}">{{i + 1}}</span>
+                            </span>
                         </span>
                         <span [hidden]="field.showValue" class="monospaced">{{field.maskedValue}}</span>
                     </div>

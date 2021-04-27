@@ -163,6 +163,48 @@ p.lead {
     }
 }
 
+.password-count {
+    display: inline-block;
+    position: relative;
+    font-weight: 600;
+    text-align: center;
+
+    &.sm {
+        padding: 0 4px 16px;
+    }
+
+    &.md {
+        padding: 0 6px 16px;
+    }
+
+    &.lg {
+        padding: 0 10px 16px;
+    }
+}
+
+.password-sub {
+    position: absolute;
+    bottom: 0;
+    white-space: nowrap;
+    font-size: smaller;
+
+    @include themify($themes) {
+        color: themed('mutedColor') !important;
+    }
+
+    &.sm {
+        left: 4px;
+    }
+
+    &.md {
+        left: 6px;
+    }
+
+    &.lg {
+        left: 10px;
+    }
+}
+
 #duo-frame {
     background: url('../images/loading.svg') 0 0 no-repeat;
     width: 100%;
