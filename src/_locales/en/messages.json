@@ -1703,5 +1703,8 @@
   },
   "sendOptionsPolicyInEffect": {
     "message": "One or more organization policies are affecting your Send options."
+  },
+  "toggleCount": {
+    "message": "Toggle Count"
   }
 }

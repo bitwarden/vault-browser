@@ -226,7 +226,12 @@
                         {{field.value || '&nbsp;'}}
                     </div>
                     <div *ngIf="field.type === fieldType.Hidden">
-                        <span [hidden]="!field.showValue" class="monospaced show-whitespace">{{field.value}}</span>
+                        <span [hidden]="!field.showValue || field.showCount" class="monospaced show-whitespace">{{field.value}}</span>
+                        <span *ngFor="let l of field.arrayValue; index as i" [hidden]="!field.showValue || !field.showCount">
+                            <span class="password-count" [ngClass]="{'sm': i < 9, 'md': i >= 9 && i < 99, 'lg': i >= 99}">{{l}}
+                                <span class="password-sub" [ngClass]="{'sm': i < 9, 'md': i >= 9 && i < 99, 'lg': i >= 99}">{{i + 1}}</span>
+                            </span>
+                        </span>
                         <span [hidden]="field.showValue" class="monospaced">{{field.maskedValue}}</span>
                     </div>
                     <div *ngIf="field.type === fieldType.Boolean">
@@ -236,6 +241,12 @@
                     </div>
                 </div>
                 <div class="action-buttons">
+                    <a class="row-btn" href="#" appStopClick appA11yTitle="{{'toggleCount' | i18n}}"
+                        *ngIf="field.type === fieldType.Hidden && cipher.viewPassword && field.showValue"
+                        (click)="toggleFieldCount(field)">
+                        <i class="fa fa-lg" aria-hidden="true"
+                            [ngClass]="{'fa-bars': !field.showCount, 'fa-list-ol': field.showCount}"></i>
+                    </a>
                     <a class="row-btn" href="#" appStopClick appA11yTitle="{{'toggleVisibility' | i18n}}"
                         *ngIf="field.type === fieldType.Hidden && cipher.viewPassword"
                         (click)="toggleFieldValue(field)">
