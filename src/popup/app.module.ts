@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ServicesModule } from './services/services.module';
 
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -47,6 +47,7 @@ import { PasswordHistoryComponent } from './vault/password-history.component';
 import { ShareComponent } from './vault/share.component';
 import { ViewComponent } from './vault/view.component';
 
+import { EffluxDatesComponent as SendEffluxDatesComponent } from './send/efflux-dates.component';
 import { SendAddEditComponent } from './send/send-add-edit.component';
 import { SendGroupingsComponent } from './send/send-groupings.component';
 import { SendTypeComponent } from './send/send-type.component';
@@ -168,14 +169,15 @@ registerLocaleData(localeZhTw, 'zh-TW');
 
 @NgModule({
     imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
         AppRoutingModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        DragDropModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ScrollingModule,
         ServicesModule,
         ToasterModule.forRoot(),
-        DragDropModule,
-        ScrollingModule,
     ],
     declarations: [
         A11yTitleDirective,
@@ -218,6 +220,7 @@ registerLocaleData(localeZhTw, 'zh-TW');
         SearchCiphersPipe,
         SelectCopyDirective,
         SendAddEditComponent,
+        SendEffluxDatesComponent,
         SendGroupingsComponent,
         SendListComponent,
         SendTypeComponent,
